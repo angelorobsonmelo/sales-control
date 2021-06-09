@@ -1,4 +1,53 @@
 # Built application files
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+
+@angelorobsonmelo
+angelorobsonmelo
+/
+sales-control
+1
+0
+0
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+sales-control/.gitignore
+@angelorobsonmelo
+angelorobsonmelo Initial commit
+Latest commit 7b502a6 now
+ History
+ 1 contributor
+85 lines (68 sloc)  1.4 KB
+
 *.apk
 *.aar
 *.ap_
@@ -83,3 +132,16 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
