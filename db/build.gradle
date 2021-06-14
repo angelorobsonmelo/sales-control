@@ -1,8 +1,8 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs.kotlin'
+
 }
 
 android {
@@ -10,13 +10,13 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.angelorobson.salecontrol"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -25,17 +25,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    buildFeatures {
-        viewBinding true
-        dataBinding true
-    }
-
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -43,10 +36,22 @@ android {
 
 dependencies {
 
+    def dependencies = rootProject.ext.dependencies
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(path: ':core')
-    implementation project(path: ':product')
 
+    // To use Kotlin annotation processing tool (kapt)
+    kapt dependencies.roomCompiler
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation dependencies.roomKtx
+
+    /**
+     * Dependency Injection
+     */
+    api dependencies.koinAndroid
+    api dependencies.androidxScope
+    api dependencies.androidxViewmodel
 
 }
