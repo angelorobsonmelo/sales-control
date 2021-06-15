@@ -1,7 +1,7 @@
-package com.angelorobson.product.data.model
+package com.angelorobson.product.domain.model
 
-data class ProductResponse(
-    val id: Int,
+data class ProductDomain(
+    val id: Int = 0,
     val name: String,
     val description: String,
     val price: Double,

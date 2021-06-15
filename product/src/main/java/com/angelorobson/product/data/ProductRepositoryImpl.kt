@@ -1,32 +1,33 @@
 package com.angelorobson.product.data
 
-import com.angelorobson.db.features.product.dao.ProductDao
-import com.angelorobson.db.features.product.entities.ProductEntity
+import com.angelorobson.product.data.datasource.local.LocalDataSource
+import com.angelorobson.product.domain.mapper.ObjectToPresentationMapper
+import com.angelorobson.product.presentation.model.ProductPresentation
 
-class ProductRepositoryImpl(productDao: ProductDao) : ProductRepository {
+class ProductRepositoryImpl(
+    private val localDataSource: LocalDataSource,
+    private val dataMapper: ObjectToPresentationMapper
+) : ProductRepository {
 
-    override suspend fun insert(product: List<ProductEntity>) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun insert(product: ProductEntity) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getAll(): List<ProductEntity> {
-        TODO("Not yet implemented")
+    override suspend fun insert(products: List<ProductPresentation>) {
 
     }
 
-    override suspend fun findByBarcode(barcode: String): ProductEntity {
-        TODO("Not yet implemented")
+    override suspend fun insert(product: ProductPresentation) {
+
     }
 
-    override suspend fun findById(id: Int): ProductEntity {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getAll(): List<ProductPresentation> =
+        localDataSource.getAll().map { dataMapper.map(it) }
 
-    override suspend fun findByName(name: String): ProductEntity {
-        TODO("Not yet implemented")
-    }
+    override suspend fun findByBarcode(barcode: String): ProductPresentation =
+        dataMapper.map(localDataSource.findByBarcode(barcode))
+
+    override suspend fun findById(id: Int): ProductPresentation =
+        dataMapper.map(localDataSource.findById(id))
+
+    override suspend fun findByName(name: String): ProductPresentation =
+        dataMapper.map(localDataSource.findByName(name))
+
+
 }

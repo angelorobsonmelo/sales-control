@@ -45,7 +45,7 @@ dependencies {
     kapt dependencies.roomCompiler
 
     // optional - Kotlin Extensions and Coroutines support for Room
-    implementation dependencies.roomKtx
+    api dependencies.roomKtx
 
     /**
      * Dependency Injection
