@@ -1,4 +1,4 @@
-package com.angelorobson.product.domain.mapper
+package com.angelorobson.product.presentation.mapper
 
 import com.angelorobson.core.utils.Mapper
 import com.angelorobson.product.domain.model.ProductDomain

@@ -5,10 +5,11 @@ import com.angelorobson.product.data.ProductRepository
 import com.angelorobson.product.data.ProductRepositoryImpl
 import com.angelorobson.product.data.datasource.local.LocalDataSource
 import com.angelorobson.product.data.datasource.local.LocalDataSourceImpl
-import com.angelorobson.product.data.mapper.ObjectToDomainMapper
-import com.angelorobson.product.domain.mapper.ObjectToPresentationMapper
+import com.angelorobson.product.data.mapper.ObjectToDataMapper
+import com.angelorobson.product.domain.mapper.ObjectToDomainMapper
 import com.angelorobson.product.domain.usecase.GetProductsUseCase
 import com.angelorobson.product.domain.usecase.impl.GetProducts
+import com.angelorobson.product.presentation.mapper.ObjectToPresentationMapper
 import com.angelorobson.product.presentation.viewmodel.ProductsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
@@ -19,6 +20,7 @@ private val daoModule = module(override = true) {
 }
 
 private val mapperModules = module(override = true) {
+    single { ObjectToDataMapper() }
     single { ObjectToDomainMapper() }
     single { ObjectToPresentationMapper() }
 }
@@ -28,15 +30,15 @@ private val localDataSourceModule = module(override = true) {
 }
 
 private val repositoryModules = module(override = true) {
-    single<ProductRepository> { ProductRepositoryImpl(get(), get()) }
+    single<ProductRepository> { ProductRepositoryImpl(get()) }
 }
 
 private val useCaseModules = module(override = true) {
-    single<GetProductsUseCase> { GetProducts(get()) }
+    single<GetProductsUseCase> { GetProducts(get(), get()) }
 }
 
 private val viewModelModule = module(override = true) {
-    viewModel { ProductsViewModel(get()) }
+    viewModel { ProductsViewModel(get(), get()) }
 }
 
 private val productModules =

@@ -1,13 +1,14 @@
 package com.angelorobson.product.data
 
+import com.angelorobson.product.data.model.ProductData
 import com.angelorobson.product.presentation.model.ProductPresentation
 
 interface ProductRepository {
 
-    suspend fun insert(products: List<ProductPresentation>)
-    suspend fun insert(product: ProductPresentation)
-    suspend fun getAll(): List<ProductPresentation>
-    suspend fun findByBarcode(barcode: String): ProductPresentation
-    suspend fun findById(id: Int): ProductPresentation
-    suspend fun findByName(name: String): ProductPresentation
+    suspend fun insert(products: List<ProductData>)
+    suspend fun insert(product: ProductData)
+    suspend fun getAll(): List<ProductData>
+    suspend fun findByBarcode(barcode: String): ProductData
+    suspend fun findById(id: Int): ProductData
+    suspend fun findByName(name: String): ProductData
 }
