@@ -10,7 +10,7 @@ import com.angelorobson.product.domain.mapper.ObjectToPresentationMapper
 import com.angelorobson.product.domain.usecase.GetProductsUseCase
 import com.angelorobson.product.domain.usecase.impl.GetProducts
 import com.angelorobson.product.presentation.viewmodel.ProductsViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
@@ -36,7 +36,7 @@ private val useCaseModules = module(override = true) {
 }
 
 private val viewModelModule = module(override = true) {
-    single { ProductsViewModel(get()) }
+    viewModel { ProductsViewModel(get()) }
 }
 
 private val productModules =

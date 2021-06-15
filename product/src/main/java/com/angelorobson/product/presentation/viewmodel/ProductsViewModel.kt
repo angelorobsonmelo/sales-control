@@ -12,7 +12,6 @@ class ProductsViewModel(private val useCase: GetProductsUseCase) : ViewModel() {
 
     private val _productsFlow =
         MutableStateFlow<CallbackResult<List<ProductPresentation>>>(CallbackResult.Loading())
-
     val productsFlow: StateFlow<CallbackResult<List<ProductPresentation>>> get() = _productsFlow
 
     fun getProducts() {
