@@ -4,9 +4,9 @@ import com.angelorobson.core.utils.Mapper
 import com.angelorobson.product.domain.model.ProductDomain
 import com.angelorobson.product.presentation.model.ProductPresentation
 
-class ObjectToPresentationMapper : Mapper<ProductDomain, ProductPresentation> {
+class ObjectPresentationDomainMapper : Mapper<ProductPresentation, ProductDomain> {
 
-    override fun map(source: ProductDomain) = ProductPresentation(
+    override fun map(source: ProductPresentation) = ProductDomain(
         id = source.id,
         name = source.name,
         description = source.description,

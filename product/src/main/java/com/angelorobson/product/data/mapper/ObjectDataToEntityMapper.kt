@@ -3,11 +3,10 @@ package com.angelorobson.product.data.mapper
 import com.angelorobson.core.utils.Mapper
 import com.angelorobson.db.features.product.entities.ProductEntity
 import com.angelorobson.product.data.model.ProductData
-import com.angelorobson.product.domain.model.ProductDomain
 
-class ObjectToDataMapper : Mapper<ProductEntity, ProductData> {
+class ObjectDataToEntityMapper : Mapper<ProductData, ProductEntity> {
 
-    override fun map(source: ProductEntity) = ProductData(
+    override fun map(source: ProductData) = ProductEntity(
         id = source.id,
         name = source.name,
         description = source.description,

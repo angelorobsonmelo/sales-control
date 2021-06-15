@@ -11,8 +11,8 @@ class ProductRepositoryImpl(
 
     }
 
-    override suspend fun insert(product: ProductData) {
-
+    override suspend fun insert(product: ProductData): Long {
+             return localDataSource.insert(product)
     }
 
     override suspend fun getAll(): List<ProductData> =

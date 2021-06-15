@@ -13,7 +13,7 @@ interface ProductDao {
     suspend fun insert(products: List<ProductEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(product: ProductEntity)
+    suspend fun insert(product: ProductEntity): Long
 
     @Query("SELECT * FROM ProductEntity")
     suspend fun getAll(): List<ProductEntity>
