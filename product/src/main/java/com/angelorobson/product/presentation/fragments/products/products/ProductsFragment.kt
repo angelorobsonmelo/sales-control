@@ -1,4 +1,4 @@
-package com.angelorobson.product.presentation
+package com.angelorobson.product.presentation.fragments.products.products
 
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import com.angelorobson.core.utils.CallbackResult
 import com.angelorobson.product.databinding.FragmentProductsBinding
 import com.angelorobson.product.presentation.adapters.ProductsAdapter
@@ -36,6 +37,10 @@ class ProductsFragment : Fragment() {
 
         setupRecyclerView()
         initObserver()
+        binding.productsFloatingActionButton.setOnClickListener {
+            val action = ProductsFragmentDirections.actionProductsFragmentToAddProductFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun setupRecyclerView() {
