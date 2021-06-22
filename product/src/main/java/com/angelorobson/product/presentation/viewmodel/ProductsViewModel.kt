@@ -14,9 +14,7 @@ import kotlinx.coroutines.launch
 
 class ProductsViewModel(
     private val useCase: GetProductsUseCase,
-    private val insertUseCase: InsertProductUseCase,
     private val mapperDomain: ObjectDomainToPresentationMapper,
-    private val mapperData: ObjectPresentationDomainMapper
 ) : ViewModel() {
 
     private val _productsFlow =
@@ -32,17 +30,6 @@ class ProductsViewModel(
                 .collect {
                     val items = it.map { productDomain -> mapperDomain.map(productDomain) }
                     _productsFlow.value = CallbackResult.Success(items)
-                }
-        }
-    }
-
-    fun insert(productPresentation: ProductPresentation) {
-        viewModelScope.launch {
-            insertUseCase(mapperData.map(productPresentation))
-                .catch {
-
-                }.collect {
-                    print(it)
                 }
         }
     }

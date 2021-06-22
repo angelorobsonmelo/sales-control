@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import com.angelorobson.core.utils.CallbackResult
 import com.angelorobson.product.databinding.FragmentProductsBinding
-import com.angelorobson.product.presentation.model.ProductPresentation
+import com.angelorobson.product.presentation.adapters.ProductsAdapter
 import com.angelorobson.product.presentation.viewmodel.ProductsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,7 +20,7 @@ class ProductsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ProductsViewModel by viewModel()
-
+    private val productAdapter = ProductsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,17 +32,16 @@ class ProductsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.insert(
-            ProductPresentation(
-                name = "name from view",
-                description = "description from view",
-                price = 50.0,
-                barcode = "141414"
-            )
-        )
         viewModel.getProducts()
 
+        setupRecyclerView()
         initObserver()
+    }
+
+    private fun setupRecyclerView() {
+        binding.productsRecyclerView.run {
+            adapter = productAdapter
+        }
     }
 
     private fun initObserver() {
@@ -55,6 +54,7 @@ class ProductsFragment : Fragment() {
                     Log.d("CallbackResult", "Loading")
                 }
                 is CallbackResult.Success -> {
+                    productAdapter.submitList(it.data)
                     Log.d("CallbackResult", "Success")
                 }
             }

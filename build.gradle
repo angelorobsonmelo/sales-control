@@ -5,7 +5,7 @@ ext {
     moshiVersion = '1.11.0'
     koinVersion = "2.2.0"
     coroutinesVersion = "1.4.3"
-    navigationVersion = "2.3.5"
+    navigationVersion = "2.4.0-alpha01"
     lifecycleVersion = "2.3.1"
     facebookShimmerVersion = "0.5.0"
     shimmerRecycleviewVersion = "0.4.0"
@@ -71,6 +71,8 @@ ext {
             junit                    : "junit:junit:$jUnitVersion",
             navigationTesting        : "androidx.navigation:navigation-testing:$navVersion",
             fragmentTesting          : "androidx.fragment:fragment-testing:$fragmentVersion",
+            fragmentRuntime          : "androidx.fragment:fragment:$fragmentVersion",
+            fragmentRuntimeKtx       : "androidx.fragment:fragment-ktx:$fragmentVersion",
             junitKxt                 : "androidx.test.ext:junit-ktx:$junitKxtVersion",
             testRunner               : "androidx.test:runner:$rootProject.runnerVersion",
             koinTest                 : "org.koin:koin-test:$koinVersion",

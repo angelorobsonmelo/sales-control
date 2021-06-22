@@ -9,6 +9,6 @@
     <fragment
         android:id="@+id/productsFragment"
         android:name="com.angelorobson.product.presentation.ProductsFragment"
-        android:label="@string/Products"
+        android:label="@string/products"
         tools:layout="@layout/fragment_products" />
 </navigation>

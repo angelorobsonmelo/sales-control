@@ -47,7 +47,7 @@ private val useCaseModules = module(override = true) {
 }
 
 private val viewModelModule = module(override = true) {
-    viewModel { ProductsViewModel(get(), get(), get(), get()) }
+    viewModel { ProductsViewModel(get(), get()) }
 }
 
 private val productModules =
