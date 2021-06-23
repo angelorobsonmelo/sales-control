@@ -1,4 +1,9 @@
 <resources>
     <string name="products">Products</string>
     <string name="new_product">New Product</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="save">Save</string>
+    <string name="bar_code">Bar code</string>
 </resources>

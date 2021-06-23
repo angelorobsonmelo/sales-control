@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--    Products Screen-->
     <string name="products">Products</string>
+
+    <!--    New product Screen-->
     <string name="new_product">Novo Product</string>
+    <string name="name">Nome</string>
+    <string name="description">Descrição</string>
+    <string name="price">Preço</string>
+    <string name="save">Salvar</string>
+    <string name="bar_code">Código de Barras</string>
 
 </resources>
