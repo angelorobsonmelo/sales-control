@@ -21,6 +21,8 @@ class AddProductFragment : Fragment() {
 
     private var _binding: FragmentAddProductBinding? = null
     private val binding get() = _binding!!
+    private lateinit var product: ProductToSavePresentation
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,14 +34,16 @@ class AddProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.product = ProductToSavePresentation()
+        product = ProductToSavePresentation()
+        binding.product = product
 
         binding.addProductPriceEditText.addTextChangedListener(
             MoneyTextWatcher(
                 binding.addProductPriceEditText,
                 Locale("pt", "BR")
-            )
+            ) { valueDouble, _ ->
+                product.price = valueDouble
+            }
         )
 
         binding.addProductBarCodeTextInputLayout.setEndIconOnClickListener {

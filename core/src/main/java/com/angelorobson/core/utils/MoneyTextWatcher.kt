@@ -9,7 +9,11 @@ import java.text.NumberFormat.getCurrencyInstance
 import java.util.*
 
 
-class MoneyTextWatcher(editText: EditText?, locale: Locale = Locale.getDefault()) : TextWatcher {
+class MoneyTextWatcher(
+    editText: EditText?,
+    locale: Locale = Locale.getDefault(),
+    private val value: (valueDouble: Double, valueString: String) -> Unit
+) : TextWatcher {
 
     private var editTextWeakReference: WeakReference<EditText>? = null
     private var locale: Locale? = null
@@ -32,6 +36,8 @@ class MoneyTextWatcher(editText: EditText?, locale: Locale = Locale.getDefault()
         editText.setText(formatted)
         editText.setSelection(formatted.length)
         editText.addTextChangedListener(this)
+
+        value.invoke(parsed.toDouble(), formatted)
     }
 
     private fun parseToBigDecimal(value: String, locale: Locale?): BigDecimal {
