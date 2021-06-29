@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.angelorobson.core.utils.MoneyTextWatcher
 import com.angelorobson.product.databinding.FragmentAddProductBinding
+import com.angelorobson.product.presentation.model.ProductToSavePresentation
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import java.util.*
@@ -32,6 +33,8 @@ class AddProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.product = ProductToSavePresentation()
+
         binding.addProductPriceEditText.addTextChangedListener(
             MoneyTextWatcher(
                 binding.addProductPriceEditText,
@@ -45,6 +48,10 @@ class AddProductFragment : Fragment() {
                 .setBeepEnabled(true)
                 .initiateScan()
         }
+
+        binding.addProductSaveButton.setOnClickListener {
+            print(binding.product)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -52,22 +59,16 @@ class AddProductFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             val result: IntentResult =
                 IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-            if (result != null) {
-                if (result.contents == null) {
-                    Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Scanned: " + result.contents,
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
-
-
-                }
+            if (result.contents == null) {
+                Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
             } else {
-                super.onActivityResult(requestCode, resultCode, data)
+                binding.addProductBarCodeEditText.setText(result.contents)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
