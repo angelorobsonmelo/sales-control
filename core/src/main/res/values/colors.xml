@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    Snack Colors-->
+    <color name="green_snack_bar_success">#43A046</color>
+    <color name="red_snack_bar_error">#EA7277</color>
+
+</resources>

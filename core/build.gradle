@@ -1,0 +1,120 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    def dependencies = rootProject.ext.dependencies
+
+    api project(path: ':db')
+
+    /**
+     * Moshi
+     */
+    implementation dependencies.retrofitMoshiConverter
+    implementation dependencies.moshi
+    implementation dependencies.recycler
+    kapt dependencies.moshiKotlinCodegen
+
+    /**
+     * Navigation Component
+     */
+    api dependencies.navigationFragment
+    api dependencies.navigationUI
+
+    /**
+     * WebServer
+     */
+    implementation dependencies.retrofit
+    implementation dependencies.okHttp3LoggingInterceptor
+
+    /**
+     * Android base
+     */
+    api dependencies.kotlinStdlib
+    api dependencies.coreKtx
+    api dependencies.appcompat
+    api dependencies.material
+    api dependencies.constraintlayout
+    api dependencies.legacySupportV4
+
+    /**
+     * Coroutines
+     */
+    api dependencies.coroutinesCore
+    api dependencies.coroutinesAndroid
+
+    /**
+     * ViewModel
+     */
+    api dependencies.lifecycleViewmodelKtx
+
+    /**
+     * LiveData
+     */
+    api dependencies.lifecycleLivedataKtx
+
+    /**
+     * Shimmer
+     */
+    api dependencies.facebookShimmer
+    api dependencies.shimmerRecyclerview
+
+
+    /**
+     * Automated tests
+     */
+    testImplementation dependencies.coreTesting
+    testImplementation dependencies.junit
+    testImplementation dependencies.mockk
+    testImplementation dependencies.testCore
+    testImplementation dependencies.coroutinesTest
+    testImplementation dependencies.junit
+
+    androidTestImplementation dependencies.navigationTesting
+
+    // ...
+    debugImplementation dependencies.fragmentTesting
+    debugImplementation dependencies.junitKxt
+    debugImplementation dependencies.testRunner
+    debugImplementation dependencies.koinTest
+    debugImplementation dependencies.mockkAndroid
+    debugImplementation dependencies.espressoCore
+
+    /**
+     * Analysing memory leaks
+     */
+    debugImplementation dependencies.leakcanaryAndroid
+}

@@ -1,0 +1,21 @@
+<resources>
+    <!--    products Screen-->
+    <string name="products">Products</string>
+    <string name="search_products">Search Products</string>
+    <string name="search_products_by_barcode">Search products by barcode</string>
+
+    <!--    Add new product Screen-->
+    <string name="new_product">New Product</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="save">Save</string>
+    <string name="bar_code">Bar code</string>
+    <string name="save_successfully">Save Successfully</string>
+
+    <!--    Fields validations-->
+    <string name="empty_field">This field can not be empty</string>
+    <string name="greater_than_zero">This field must be greater than zero</string>
+    <string name="an_error_has_occurred">An error has occurred</string>
+    <string name="no_data_found">No Data Found</string>
+</resources>
