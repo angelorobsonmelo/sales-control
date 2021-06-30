@@ -73,12 +73,7 @@ class ProductsFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 val term = newText.toLowerCase(Locale.ROOT)
-                if (term.isEmpty()) {
-                    viewModel.getProducts()
-                } else {
-                    viewModel.findByName(term)
-                }
-
+                viewModel.findByName(term)
                 return false
             }
         })
