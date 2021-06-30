@@ -17,4 +17,5 @@
     <string name="empty_field">This field can not be empty</string>
     <string name="greater_than_zero">This field must be greater than zero</string>
     <string name="an_error_has_occurred">An error has occurred</string>
+    <string name="no_data_found">No Data Found</string>
 </resources>

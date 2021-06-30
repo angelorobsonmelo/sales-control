@@ -19,7 +19,7 @@ class ProductRepositoryImpl(
     override suspend fun getAll(): List<ProductData> =
         localDataSource.getAll()
 
-    override suspend fun findByBarcode(barcode: String): ProductData =
+    override suspend fun findByBarcode(barcode: String): List<ProductData> =
         localDataSource.findByBarcode(barcode)
 
     override suspend fun findById(id: Int): ProductData =

@@ -11,9 +11,11 @@ import com.angelorobson.product.data.mapper.ObjectProductSaveDataToEntityMapper
 import com.angelorobson.product.domain.mapper.ObjectDataToDomainMapper
 import com.angelorobson.product.domain.mapper.ObjectDomainToDataMapper
 import com.angelorobson.product.domain.mapper.ObjectProductSaveDomainToDataMapper
+import com.angelorobson.product.domain.usecase.GetProductByBarcodeUseCase
 import com.angelorobson.product.domain.usecase.GetProductByNameUseCase
 import com.angelorobson.product.domain.usecase.GetProductsUseCase
 import com.angelorobson.product.domain.usecase.InsertProductUseCase
+import com.angelorobson.product.domain.usecase.impl.GetProductByBarcode
 import com.angelorobson.product.domain.usecase.impl.GetProductByName
 import com.angelorobson.product.domain.usecase.impl.GetProducts
 import com.angelorobson.product.domain.usecase.impl.InsertProduct
@@ -55,10 +57,11 @@ private val useCaseModules = module(override = true) {
     single<GetProductsUseCase> { GetProducts(get(), get()) }
     single<InsertProductUseCase> { InsertProduct(get(), get()) }
     single<GetProductByNameUseCase> { GetProductByName(get(), get()) }
+    single<GetProductByBarcodeUseCase> { GetProductByBarcode(get(), get()) }
 }
 
 private val viewModelModule = module(override = true) {
-    viewModel { ProductsViewModel(get(), get(), get()) }
+    viewModel { ProductsViewModel(get(), get(), get(), get()) }
     viewModel { AddProductViewModel(get(), get(), androidApplication()) }
 }
 

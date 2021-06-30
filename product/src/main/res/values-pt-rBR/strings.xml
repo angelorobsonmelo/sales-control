@@ -18,5 +18,6 @@
     <string name="empty_field">Este campo não pode ser vazio</string>
     <string name="greater_than_zero">Este campo deve ser maior que zero</string>
     <string name="an_error_has_occurred">Ocorreu um erro</string>
+    <string name="no_data_found">Dados não encontrado</string>
 
 </resources>

@@ -29,3 +29,15 @@ fun View.displaySnackBar(
     snackView.setTextColor(textColorSnackBar)
     snackBar.show()
 }
+
+fun View.visible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.invisible() {
+    this.visibility = View.INVISIBLE
+}
+
+fun View.gone() {
+    this.visibility = View.GONE
+}

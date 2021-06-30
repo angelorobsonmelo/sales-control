@@ -1,19 +1,30 @@
 package com.angelorobson.product.presentation.fragments.products.products
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
+import com.angelorobson.core.extensions.gone
+import com.angelorobson.core.extensions.visible
 import com.angelorobson.core.utils.CallbackResult
 import com.angelorobson.product.R
 import com.angelorobson.product.databinding.FragmentProductsBinding
 import com.angelorobson.product.presentation.adapters.ProductsAdapter
 import com.angelorobson.product.presentation.viewmodel.ProductsViewModel
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -41,6 +52,15 @@ class ProductsFragment : Fragment() {
 
         setupRecyclerView()
         initObserver()
+        initFloatingActionButtonListener()
+
+        binding.productsSwipeRefreshLayout.setOnRefreshListener {
+            viewModel.getProducts()
+            binding.productsSwipeRefreshLayout.isRefreshing = false
+        }
+    }
+
+    private fun initFloatingActionButtonListener() {
         binding.productsFloatingActionButton.setOnClickListener {
             val action = ProductsFragmentDirections.actionProductsFragmentToAddProductFragment()
             findNavController().navigate(action)
@@ -82,7 +102,10 @@ class ProductsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.product_search_by_barcode_action -> {
-                print("")
+                IntentIntegrator.forSupportFragment(this)
+                    .setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+                    .setBeepEnabled(true)
+                    .initiateScan()
             }
         }
 
@@ -99,17 +122,36 @@ class ProductsFragment : Fragment() {
         viewModel.productsFlow.asLiveData().observe(viewLifecycleOwner, {
             when (it) {
                 is CallbackResult.Error -> {
-                    Log.d("CallbackResult", "Error")
+                    binding.productsNoDataFoundTextView.gone()
                 }
                 is CallbackResult.Loading -> {
-                    Log.d("CallbackResult", "Loading")
+                    binding.productsNoDataFoundTextView.gone()
                 }
                 is CallbackResult.Success -> {
                     productAdapter.submitList(it.data)
-                    Log.d("CallbackResult", "Success")
+
+                    if (it.data?.isEmpty() == true) {
+                        binding.productsNoDataFoundTextView.visible()
+                        return@observe
+                    }
+
+                    binding.productsNoDataFoundTextView.gone()
                 }
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            val result: IntentResult =
+                IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+            if (result.contents == null) {
+                Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
+            } else {
+                viewModel.findByBarcode(result.contents)
+            }
+        }
     }
 
     override fun onDestroyView() {
