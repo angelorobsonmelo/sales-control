@@ -12,4 +12,5 @@ interface LocalDataSource {
     suspend fun findByBarcode(barcode: String): ProductData
     suspend fun findById(id: Int): ProductData
     suspend fun findByName(name: String): ProductData
+    suspend fun findByTerm(name: String): List<ProductData>
 }

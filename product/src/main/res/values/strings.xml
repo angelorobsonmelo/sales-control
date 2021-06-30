@@ -1,6 +1,7 @@
 <resources>
     <!--    products Screen-->
     <string name="products">Products</string>
+    <string name="search_products">Search Products</string>
 
     <!--    Add new product Screen-->
     <string name="new_product">New Product</string>

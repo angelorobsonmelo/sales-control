@@ -30,4 +30,8 @@ class LocalDataSourceImpl(
 
     override suspend fun findByName(name: String): ProductData =
         mapperEntity.map(dao.findByName(name))
+
+    override suspend fun findByTerm(name: String): List<ProductData> {
+        return dao.findByTerm(name).map { mapperEntity.map(it) }
+    }
 }

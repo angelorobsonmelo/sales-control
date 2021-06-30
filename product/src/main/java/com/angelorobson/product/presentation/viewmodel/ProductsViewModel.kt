@@ -3,6 +3,7 @@ package com.angelorobson.product.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.angelorobson.core.utils.CallbackResult
+import com.angelorobson.product.domain.usecase.GetProductByNameUseCase
 import com.angelorobson.product.domain.usecase.GetProductsUseCase
 import com.angelorobson.product.presentation.mapper.ObjectDomainToPresentationMapper
 import com.angelorobson.product.presentation.model.ProductPresentation
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class ProductsViewModel(
     private val useCase: GetProductsUseCase,
+    private val getByNameUseCase: GetProductByNameUseCase,
     private val mapperDomain: ObjectDomainToPresentationMapper,
 ) : ViewModel() {
 
@@ -24,6 +26,19 @@ class ProductsViewModel(
     fun getProducts() {
         viewModelScope.launch {
             useCase()
+                .catch {
+                    _productsFlow.value = CallbackResult.Error(it.localizedMessage)
+                }
+                .collect {
+                    val items = it.map { productDomain -> mapperDomain.map(productDomain) }
+                    _productsFlow.value = CallbackResult.Success(items)
+                }
+        }
+    }
+
+    fun findByName(term: String) {
+        viewModelScope.launch {
+            getByNameUseCase(term)
                 .catch {
                     _productsFlow.value = CallbackResult.Error(it.localizedMessage)
                 }

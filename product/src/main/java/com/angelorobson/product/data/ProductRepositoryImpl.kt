@@ -13,7 +13,7 @@ class ProductRepositoryImpl(
     }
 
     override suspend fun insert(product: ProductSaveData): Long {
-             return localDataSource.insert(product)
+        return localDataSource.insert(product)
     }
 
     override suspend fun getAll(): List<ProductData> =
@@ -27,6 +27,10 @@ class ProductRepositoryImpl(
 
     override suspend fun findByName(name: String): ProductData =
         localDataSource.findByName(name)
+
+    override suspend fun findByTerm(name: String): List<ProductData> {
+        return localDataSource.findByTerm(name)
+    }
 
 
 }
