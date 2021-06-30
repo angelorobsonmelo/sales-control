@@ -27,7 +27,7 @@ interface ProductDao {
     @Query("SELECT * FROM ProductEntity WHERE name = :name")
     suspend fun findByName(name: String): ProductEntity
 
-    @Query("SELECT * FROM ProductEntity WHERE name LIKE :name")
+    @Query("SELECT * FROM ProductEntity WHERE name LIKE :name ORDER BY name")
     suspend fun findByTerm(name: String): List<ProductEntity>
 
 }
