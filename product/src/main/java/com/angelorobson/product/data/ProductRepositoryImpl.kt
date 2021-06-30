@@ -2,6 +2,7 @@ package com.angelorobson.product.data
 
 import com.angelorobson.product.data.datasource.local.LocalDataSource
 import com.angelorobson.product.data.model.ProductData
+import com.angelorobson.product.data.model.ProductSaveData
 
 class ProductRepositoryImpl(
     private val localDataSource: LocalDataSource
@@ -11,7 +12,7 @@ class ProductRepositoryImpl(
 
     }
 
-    override suspend fun insert(product: ProductData): Long {
+    override suspend fun insert(product: ProductSaveData): Long {
              return localDataSource.insert(product)
     }
 

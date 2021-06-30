@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.angelorobson.core.utils.CallbackResult
 import com.angelorobson.product.domain.usecase.GetProductsUseCase
-import com.angelorobson.product.domain.usecase.InsertProductUseCase
-import com.angelorobson.product.domain.usecase.impl.InsertProduct
 import com.angelorobson.product.presentation.mapper.ObjectDomainToPresentationMapper
-import com.angelorobson.product.presentation.mapper.ObjectPresentationDomainMapper
 import com.angelorobson.product.presentation.model.ProductPresentation
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ProductsViewModel(

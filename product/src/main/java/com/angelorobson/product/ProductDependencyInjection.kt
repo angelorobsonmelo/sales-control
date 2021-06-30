@@ -7,15 +7,20 @@ import com.angelorobson.product.data.datasource.local.LocalDataSource
 import com.angelorobson.product.data.datasource.local.LocalDataSourceImpl
 import com.angelorobson.product.data.mapper.ObjectDataToEntityMapper
 import com.angelorobson.product.data.mapper.ObjectEntityToDataMapper
+import com.angelorobson.product.data.mapper.ObjectProductSaveDataToEntityMapper
 import com.angelorobson.product.domain.mapper.ObjectDomainToDataMapper
 import com.angelorobson.product.domain.mapper.ObjectDataToDomainMapper
+import com.angelorobson.product.domain.mapper.ObjectProductSaveDomainToDataMapper
 import com.angelorobson.product.domain.usecase.GetProductsUseCase
 import com.angelorobson.product.domain.usecase.InsertProductUseCase
 import com.angelorobson.product.domain.usecase.impl.GetProducts
 import com.angelorobson.product.domain.usecase.impl.InsertProduct
-import com.angelorobson.product.presentation.mapper.ObjectPresentationDomainMapper
+import com.angelorobson.product.presentation.mapper.ObjectPresentationToDomainMapper
 import com.angelorobson.product.presentation.mapper.ObjectDomainToPresentationMapper
+import com.angelorobson.product.presentation.mapper.ObjectSaveProductPresentationToDomainMapper
+import com.angelorobson.product.presentation.viewmodel.AddProductViewModel
 import com.angelorobson.product.presentation.viewmodel.ProductsViewModel
+import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
@@ -30,7 +35,10 @@ private val mapperModules = module(override = true) {
     single { ObjectDomainToPresentationMapper() }
     single { ObjectDataToEntityMapper() }
     single { ObjectDomainToDataMapper() }
-    single { ObjectPresentationDomainMapper() }
+    single { ObjectPresentationToDomainMapper() }
+    single { ObjectSaveProductPresentationToDomainMapper() }
+    single { ObjectProductSaveDomainToDataMapper() }
+    single {  ObjectProductSaveDataToEntityMapper() }
 }
 
 private val localDataSourceModule = module(override = true) {
@@ -48,6 +56,7 @@ private val useCaseModules = module(override = true) {
 
 private val viewModelModule = module(override = true) {
     viewModel { ProductsViewModel(get(), get()) }
+    viewModel { AddProductViewModel(get(), get(), androidApplication()) }
 }
 
 private val productModules =
