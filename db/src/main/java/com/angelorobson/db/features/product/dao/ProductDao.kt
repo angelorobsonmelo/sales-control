@@ -15,7 +15,7 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(product: ProductEntity): Long
 
-    @Query("SELECT * FROM ProductEntity")
+    @Query("SELECT * FROM ProductEntity ORDER BY name")
     suspend fun getAll(): List<ProductEntity>
 
     @Query("SELECT * FROM ProductEntity WHERE barcode = :barCode")
