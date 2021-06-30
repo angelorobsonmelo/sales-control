@@ -9,4 +9,11 @@
         app:showAsAction="always|collapseActionView"
         android:title="@string/search_products" />
 
+    <item
+        android:id="@+id/product_search_by_barcode_action"
+        android:icon="@drawable/ic_qr_code_scanner"
+        app:showAsAction="ifRoom"
+        android:title="@string/search_products_by_barcode"
+        />
+
 </menu>

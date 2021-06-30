@@ -79,6 +79,16 @@ class ProductsFragment : Fragment() {
         })
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.product_search_by_barcode_action -> {
+                print("")
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun setupRecyclerView() {
         binding.productsRecyclerView.run {
             adapter = productAdapter
