@@ -30,6 +30,31 @@ fun View.displaySnackBar(
     snackBar.show()
 }
 
+fun View.displaySnackBarWithUndoAction(
+    dismissTimeoutCallback: () -> Unit,
+    undoClicked: () -> Unit
+) {
+    Snackbar.make(
+        this,
+        this.context.getString(R.string.removed),
+        Snackbar.LENGTH_LONG
+    )
+        .setAction(this.context.getString(R.string.undo)) {
+        }.addCallback(object : Snackbar.Callback() {
+            override fun onDismissed(
+                transientBottomBar: Snackbar?,
+                event: Int
+            ) {
+                if (event == DISMISS_EVENT_TIMEOUT) {
+                    dismissTimeoutCallback.invoke()
+                } else if (event == DISMISS_EVENT_ACTION) {
+                    undoClicked.invoke()
+                }
+            }
+        })
+        .show()
+}
+
 fun View.visible() {
     this.visibility = View.VISIBLE
 }

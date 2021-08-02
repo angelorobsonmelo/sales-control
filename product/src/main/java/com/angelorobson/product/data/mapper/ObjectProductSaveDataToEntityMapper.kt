@@ -12,7 +12,8 @@ class ObjectProductSaveDataToEntityMapper : Mapper<ProductSaveData, ProductEntit
         name = source.name,
         description = source.description,
         barcode = source.barcode,
-        price = source.price
+        price = source.price,
+        isActive = true
     )
 
 

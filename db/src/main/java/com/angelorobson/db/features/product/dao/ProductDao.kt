@@ -1,10 +1,9 @@
 package com.angelorobson.db.features.product.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import androidx.room.FtsOptions.Order
 import com.angelorobson.db.features.product.entities.ProductEntity
+
 
 @Dao
 interface ProductDao {
@@ -15,19 +14,25 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(product: ProductEntity): Long
 
-    @Query("SELECT * FROM ProductEntity ORDER BY name")
+    @Query("SELECT * FROM ProductEntity WHERE isActive = 1 ORDER BY name")
     suspend fun getAll(): List<ProductEntity>
 
-    @Query("SELECT * FROM ProductEntity WHERE barcode LIKE :barCode ORDER BY name")
+    @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND barcode LIKE :barCode ORDER BY name")
     suspend fun findByBarcode(barCode: String): List<ProductEntity>
 
-    @Query("SELECT * FROM ProductEntity WHERE id = :id")
+    @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND id = :id")
     suspend fun findById(id: Int): ProductEntity
 
-    @Query("SELECT * FROM ProductEntity WHERE name = :name")
+    @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND name = :name")
     suspend fun findByName(name: String): ProductEntity
 
-    @Query("SELECT * FROM ProductEntity WHERE name LIKE :name ORDER BY name")
+    @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND name LIKE :name ORDER BY name")
     suspend fun findByTerm(name: String): List<ProductEntity>
+
+    @Update
+    suspend fun inactivateProduct(product: ProductEntity)
+
+    @Update
+    suspend fun update(product: ProductEntity)
 
 }

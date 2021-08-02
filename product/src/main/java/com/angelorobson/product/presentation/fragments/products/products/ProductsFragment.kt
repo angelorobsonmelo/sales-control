@@ -2,40 +2,45 @@ package com.angelorobson.product.presentation.fragments.products.products
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.InputType
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.angelorobson.core.extensions.displaySnackBarWithUndoAction
 import com.angelorobson.core.extensions.gone
 import com.angelorobson.core.extensions.visible
 import com.angelorobson.core.utils.CallbackResult
+import com.angelorobson.core.utils.SwipeHelper
 import com.angelorobson.product.R
 import com.angelorobson.product.databinding.FragmentProductsBinding
 import com.angelorobson.product.presentation.adapters.ProductsAdapter
+import com.angelorobson.product.presentation.model.ProductPresentation
 import com.angelorobson.product.presentation.viewmodel.ProductsViewModel
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 
 class ProductsFragment : Fragment() {
 
+    private lateinit var recyclerView: RecyclerView
     private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: ProductsViewModel by viewModel()
     private val productAdapter = ProductsAdapter()
+    private val products = mutableListOf<ProductPresentation?>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,12 +53,18 @@ class ProductsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recyclerView = binding.productsRecyclerView
+
         viewModel.getProducts()
 
         setupRecyclerView()
+        setupSwipeItemOptions()
         initObserver()
         initFloatingActionButtonListener()
+        initSwipeRefreshListener()
+    }
 
+    private fun initSwipeRefreshListener() {
         binding.productsSwipeRefreshLayout.setOnRefreshListener {
             viewModel.getProducts()
             binding.productsSwipeRefreshLayout.isRefreshing = false
@@ -113,8 +124,60 @@ class ProductsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.productsRecyclerView.run {
+        recyclerView.run {
             adapter = productAdapter
+        }
+    }
+
+    private fun setupSwipeItemOptions() {
+        object : SwipeHelper(requireContext(), recyclerView, false) {
+            override fun instantiateUnderlayButton(
+                viewHolder: RecyclerView.ViewHolder?,
+                underlayButtons: MutableList<UnderlayButton>?
+            ) {
+                underlayButtons?.add(UnderlayButton(
+                    getString(R.string.delete),
+                    AppCompatResources.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_delete
+                    ),
+                    Color.parseColor(requireContext().getString(android.R.color.holo_red_light)),
+                    Color.parseColor(requireContext().getString(android.R.color.white))
+
+                ) { pos: Int ->
+                    val product = products[pos]
+
+                    products.removeAt(pos)
+                    productAdapter.notifyItemRemoved(pos)
+
+                    if (products.isEmpty()) {
+                        binding.productsNoDataFoundTextView.visible()
+                    }
+
+                    binding.productsConstraintLayout.displaySnackBarWithUndoAction(
+                        undoClicked = {
+                            products.add(pos, product)
+                            productAdapter.notifyItemInserted(pos)
+                        },
+                        dismissTimeoutCallback = {
+
+                        })
+                })
+
+                underlayButtons?.add(UnderlayButton(
+                    getString(R.string.edit),
+                    AppCompatResources.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_edit
+                    ),
+                    Color.parseColor(requireContext().getString(android.R.color.holo_green_light)),
+                    Color.parseColor(requireContext().getString(android.R.color.white))
+
+                ) { pos: Int ->
+
+
+                })
+            }
         }
     }
 
@@ -128,14 +191,21 @@ class ProductsFragment : Fragment() {
                     binding.productsNoDataFoundTextView.gone()
                 }
                 is CallbackResult.Success -> {
-                    productAdapter.submitList(it.data)
+                    it.data?.let { items ->
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            products.clear()
+                            products.addAll(items)
+                            productAdapter.submitList(items)
+                            binding.productsNoDataFoundTextView.gone()
+                        }, 200)
 
-                    if (it.data?.isEmpty() == true) {
+                    }
+
+                    if (products.isEmpty()) {
                         binding.productsNoDataFoundTextView.visible()
                         return@observe
                     }
 
-                    binding.productsNoDataFoundTextView.gone()
                 }
             }
         })

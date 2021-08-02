@@ -4,6 +4,9 @@
     <string name="products">Products</string>
     <string name="search_products">Procurar Produtos</string>
     <string name="search_products_by_barcode">Procurar produtos por codigo de barras</string>
+    <string name="delete">Remover</string>
+    <string name="edit">Editar</string>
+
 
     <!--    New product Screen-->
     <string name="new_product">Novo Product</string>

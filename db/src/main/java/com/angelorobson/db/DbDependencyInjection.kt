@@ -32,7 +32,8 @@ val roomModules = module(override = true) {
                                     name = "product $i",
                                     price = 10.0 + i,
                                     barcode = "12$i",
-                                    description = "description $i"
+                                    description = "description $i",
+                                    isActive = true
                                 )
                             )
                         }

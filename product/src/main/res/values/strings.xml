@@ -3,6 +3,8 @@
     <string name="products">Products</string>
     <string name="search_products">Search Products</string>
     <string name="search_products_by_barcode">Search products by barcode</string>
+    <string name="delete">Remove</string>
+    <string name="edit">Edit</string>
 
     <!--    Add new product Screen-->
     <string name="new_product">New Product</string>
@@ -18,4 +20,5 @@
     <string name="greater_than_zero">This field must be greater than zero</string>
     <string name="an_error_has_occurred">An error has occurred</string>
     <string name="no_data_found">No Data Found</string>
+
 </resources>
