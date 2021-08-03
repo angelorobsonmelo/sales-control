@@ -8,15 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.angelorobson.product.databinding.ProductItemBinding
 import com.angelorobson.product.presentation.model.ProductPresentation
 
-class ProductsAdapter : ListAdapter<ProductPresentation, ProductsAdapter.ProductsViewHolder>(
-    DIFF_CALLBACK
-) {
+class ProductsAdapter(private val onclick: (product: ProductPresentation) -> Unit) :
+    ListAdapter<ProductPresentation, ProductsAdapter.ProductsViewHolder>(
+        DIFF_CALLBACK
+    ) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ProductsViewHolder {
-        return ProductsViewHolder.create(parent)
+        return ProductsViewHolder.create(parent, onclick)
     }
 
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
@@ -43,20 +44,27 @@ class ProductsAdapter : ListAdapter<ProductPresentation, ProductsAdapter.Product
     }
 
     class ProductsViewHolder(
-        private val itemBinding: ProductItemBinding
+        private val itemBinding: ProductItemBinding,
+        private val onclick: (product: ProductPresentation) -> Unit
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(product: ProductPresentation) {
             itemBinding.run {
                 item = product
+                itemView.setOnClickListener {
+                    onclick.invoke(product)
+                }
             }
         }
 
         companion object {
-            fun create(parent: ViewGroup): ProductsViewHolder {
+            fun create(
+                parent: ViewGroup,
+                onclick: (product: ProductPresentation) -> Unit
+            ): ProductsViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ProductItemBinding.inflate(layoutInflater, parent, false)
-                return ProductsViewHolder(binding)
+                return ProductsViewHolder(binding, onclick)
             }
         }
     }

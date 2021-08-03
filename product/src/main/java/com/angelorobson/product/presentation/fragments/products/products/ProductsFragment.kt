@@ -39,8 +39,9 @@ class ProductsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ProductsViewModel by viewModel()
-    private val productAdapter = ProductsAdapter()
     private val products = mutableListOf<ProductPresentation?>()
+
+    private val productAdapter = ProductsAdapter {}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -147,7 +148,14 @@ class ProductsFragment : Fragment() {
         Color.parseColor(requireContext().getString(android.R.color.holo_green_light)),
         Color.parseColor(requireContext().getString(android.R.color.white))
     ) { pos: Int ->
-
+         products[pos]?.run {
+             val action =
+                 ProductsFragmentDirections.actionProductsFragmentToEditProductFragment(
+                     this.id,
+                     this.name
+                 )
+             findNavController().navigate(action)
+        }
 
     }
 
