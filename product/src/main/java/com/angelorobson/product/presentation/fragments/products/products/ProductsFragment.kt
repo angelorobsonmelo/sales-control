@@ -135,56 +135,49 @@ class ProductsFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder?,
                 underlayButtons: MutableList<UnderlayButton>?
             ) {
-                underlayButtons?.add(UnderlayButton(
-                    getString(R.string.delete),
-                    AppCompatResources.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_delete
-                    ),
-                    Color.parseColor(requireContext().getString(android.R.color.holo_red_light)),
-                    Color.parseColor(requireContext().getString(android.R.color.white))
-
-                ) { pos: Int ->
-                    val product = products[pos]
-
-                    products.removeAt(pos)
-                    productAdapter.submitList(products)
-                    productAdapter.notifyItemRemoved(pos)
-
-                    if (products.isEmpty()) {
-                        binding.productsNoDataFoundTextView.visible()
-                    }
-
-                    binding.productsConstraintLayout.displaySnackBarWithUndoAction(
-                        undoClicked = {
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                products.add(pos, product)
-                                productAdapter.submitList(products)
-                                productAdapter.notifyItemInserted(pos)
-
-                                binding.productsNoDataFoundTextView.gone()
-                            }, 200)
-                        },
-                        dismissTimeoutCallback = {
-
-                        })
-                })
-
-                underlayButtons?.add(UnderlayButton(
-                    getString(R.string.edit),
-                    AppCompatResources.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_edit
-                    ),
-                    Color.parseColor(requireContext().getString(android.R.color.holo_green_light)),
-                    Color.parseColor(requireContext().getString(android.R.color.white))
-
-                ) { pos: Int ->
-
-
-                })
+                underlayButtons?.add(createAndHandleDeleteUnderlayButton())
+                underlayButtons?.add(createAndHandleEditOverLayButton())
             }
         }
+    }
+
+    private fun createAndHandleEditOverLayButton() = SwipeHelper.UnderlayButton(
+        getString(R.string.edit),
+        AppCompatResources.getDrawable(requireContext(), R.drawable.ic_edit),
+        Color.parseColor(requireContext().getString(android.R.color.holo_green_light)),
+        Color.parseColor(requireContext().getString(android.R.color.white))
+    ) { pos: Int ->
+
+
+    }
+
+    private fun createAndHandleDeleteUnderlayButton() = SwipeHelper.UnderlayButton(
+        getString(R.string.delete),
+        AppCompatResources.getDrawable(requireContext(), R.drawable.ic_delete),
+        Color.parseColor(requireContext().getString(android.R.color.holo_red_light)),
+        Color.parseColor(requireContext().getString(android.R.color.white))
+    ) { pos: Int ->
+        val product = products[pos]
+
+        products.removeAt(pos)
+        productAdapter.submitList(products)
+        productAdapter.notifyItemRemoved(pos)
+
+        if (products.isEmpty()) {
+            binding.productsNoDataFoundTextView.visible()
+        }
+
+        binding.productsConstraintLayout.displaySnackBarWithUndoAction(
+            undoClicked = {
+                    products.add(pos, product)
+                    productAdapter.submitList(products)
+                    productAdapter.notifyItemInserted(pos)
+
+                    binding.productsNoDataFoundTextView.gone()
+            },
+            dismissTimeoutCallback = {
+
+            })
     }
 
     private fun initObserver() {
