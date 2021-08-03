@@ -11,18 +11,14 @@ import com.angelorobson.product.data.mapper.ObjectProductSaveDataToEntityMapper
 import com.angelorobson.product.domain.mapper.ObjectDataToDomainMapper
 import com.angelorobson.product.domain.mapper.ObjectDomainToDataMapper
 import com.angelorobson.product.domain.mapper.ObjectProductSaveDomainToDataMapper
-import com.angelorobson.product.domain.usecase.GetProductByBarcodeUseCase
-import com.angelorobson.product.domain.usecase.GetProductByNameUseCase
-import com.angelorobson.product.domain.usecase.GetProductsUseCase
-import com.angelorobson.product.domain.usecase.InsertProductUseCase
-import com.angelorobson.product.domain.usecase.impl.GetProductByBarcode
-import com.angelorobson.product.domain.usecase.impl.GetProductByName
-import com.angelorobson.product.domain.usecase.impl.GetProducts
-import com.angelorobson.product.domain.usecase.impl.InsertProduct
+import com.angelorobson.product.domain.usecase.*
+import com.angelorobson.product.domain.usecase.impl.*
 import com.angelorobson.product.presentation.mapper.ObjectDomainToPresentationMapper
+import com.angelorobson.product.presentation.mapper.ObjectDomainToSaveProductPresentationMapper
 import com.angelorobson.product.presentation.mapper.ObjectPresentationToDomainMapper
 import com.angelorobson.product.presentation.mapper.ObjectSaveProductPresentationToDomainMapper
 import com.angelorobson.product.presentation.viewmodel.AddProductViewModel
+import com.angelorobson.product.presentation.viewmodel.EditProductViewModel
 import com.angelorobson.product.presentation.viewmodel.ProductsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -43,6 +39,7 @@ private val mapperModules = module(override = true) {
     single { ObjectSaveProductPresentationToDomainMapper() }
     single { ObjectProductSaveDomainToDataMapper() }
     single { ObjectProductSaveDataToEntityMapper() }
+    single { ObjectDomainToSaveProductPresentationMapper() }
 }
 
 private val localDataSourceModule = module(override = true) {
@@ -58,11 +55,13 @@ private val useCaseModules = module(override = true) {
     single<InsertProductUseCase> { InsertProduct(get(), get()) }
     single<GetProductByNameUseCase> { GetProductByName(get(), get()) }
     single<GetProductByBarcodeUseCase> { GetProductByBarcode(get(), get()) }
+    single<GetProductByIdUseCase> { GetProductById(get(), get()) }
 }
 
 private val viewModelModule = module(override = true) {
     viewModel { ProductsViewModel(get(), get(), get(), get()) }
     viewModel { AddProductViewModel(get(), get(), androidApplication()) }
+    viewModel { EditProductViewModel(get(), get(), get(), get(), androidApplication()) }
 }
 
 private val productModules =

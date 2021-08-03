@@ -21,7 +21,7 @@ interface ProductDao {
     suspend fun findByBarcode(barCode: String): List<ProductEntity>
 
     @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND id = :id")
-    suspend fun findById(id: Int): ProductEntity
+    suspend fun findById(id: Long): ProductEntity
 
     @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND name = :name")
     suspend fun findByName(name: String): ProductEntity

@@ -26,7 +26,7 @@ class LocalDataSourceImpl(
     override suspend fun findByBarcode(barcode: String): List<ProductData> =
         dao.findByBarcode(barcode).map { mapperEntity.map(it) }
 
-    override suspend fun findById(id: Int): ProductData = mapperEntity.map(dao.findById(id))
+    override suspend fun findById(id: Long): ProductData = mapperEntity.map(dao.findById(id))
 
     override suspend fun findByName(name: String): ProductData =
         mapperEntity.map(dao.findByName(name))

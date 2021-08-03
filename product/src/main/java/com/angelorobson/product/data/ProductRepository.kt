@@ -10,7 +10,7 @@ interface ProductRepository {
     suspend fun insert(product: ProductSaveData): Long
     suspend fun getAll(): List<ProductData>
     suspend fun findByBarcode(barcode: String): List<ProductData>
-    suspend fun findById(id: Int): ProductData
+    suspend fun findById(id: Long): ProductData
     suspend fun findByName(name: String): ProductData
     suspend fun findByTerm(name: String): List<ProductData>
 

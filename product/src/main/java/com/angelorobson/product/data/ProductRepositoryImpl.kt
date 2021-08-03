@@ -22,7 +22,7 @@ class ProductRepositoryImpl(
     override suspend fun findByBarcode(barcode: String): List<ProductData> =
         localDataSource.findByBarcode(barcode)
 
-    override suspend fun findById(id: Int): ProductData =
+    override suspend fun findById(id: Long): ProductData =
         localDataSource.findById(id)
 
     override suspend fun findByName(name: String): ProductData =
