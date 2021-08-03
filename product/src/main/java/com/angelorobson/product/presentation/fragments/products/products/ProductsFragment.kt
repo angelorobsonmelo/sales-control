@@ -148,6 +148,7 @@ class ProductsFragment : Fragment() {
                     val product = products[pos]
 
                     products.removeAt(pos)
+                    productAdapter.submitList(products)
                     productAdapter.notifyItemRemoved(pos)
 
                     if (products.isEmpty()) {
@@ -156,8 +157,13 @@ class ProductsFragment : Fragment() {
 
                     binding.productsConstraintLayout.displaySnackBarWithUndoAction(
                         undoClicked = {
-                            products.add(pos, product)
-                            productAdapter.notifyItemInserted(pos)
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                products.add(pos, product)
+                                productAdapter.submitList(products)
+                                productAdapter.notifyItemInserted(pos)
+
+                                binding.productsNoDataFoundTextView.gone()
+                            }, 200)
                         },
                         dismissTimeoutCallback = {
 
@@ -194,6 +200,9 @@ class ProductsFragment : Fragment() {
                     it.data?.let { items ->
                         Handler(Looper.getMainLooper()).postDelayed({
                             products.clear()
+                            recyclerView.recycledViewPool.clear();
+                            productAdapter.notifyDataSetChanged();
+
                             products.addAll(items)
                             productAdapter.submitList(items)
                             binding.productsNoDataFoundTextView.gone()
