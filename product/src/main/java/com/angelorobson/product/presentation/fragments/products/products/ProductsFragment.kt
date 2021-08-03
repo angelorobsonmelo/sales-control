@@ -160,7 +160,6 @@ class ProductsFragment : Fragment() {
         val product = products[pos]
 
         products.removeAt(pos)
-        productAdapter.submitList(products)
         productAdapter.notifyItemRemoved(pos)
 
         if (products.isEmpty()) {
@@ -169,11 +168,10 @@ class ProductsFragment : Fragment() {
 
         binding.productsConstraintLayout.displaySnackBarWithUndoAction(
             undoClicked = {
-                    products.add(pos, product)
-                    productAdapter.submitList(products)
-                    productAdapter.notifyItemInserted(pos)
+                products.add(pos, product)
+                productAdapter.notifyItemInserted(pos)
 
-                    binding.productsNoDataFoundTextView.gone()
+                binding.productsNoDataFoundTextView.gone()
             },
             dismissTimeoutCallback = {
 
@@ -191,21 +189,18 @@ class ProductsFragment : Fragment() {
                 }
                 is CallbackResult.Success -> {
                     it.data?.let { items ->
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            products.clear()
-                            recyclerView.recycledViewPool.clear();
-                            productAdapter.notifyDataSetChanged();
+                        products.clear()
+                        products.addAll(items)
 
-                            products.addAll(items)
-                            productAdapter.submitList(items)
-                            binding.productsNoDataFoundTextView.gone()
-                        }, 200)
+                        recyclerView.recycledViewPool.clear()
+                        productAdapter.notifyDataSetChanged()
 
+                        productAdapter.submitList(products)
+                        binding.productsNoDataFoundTextView.gone()
                     }
 
                     if (products.isEmpty()) {
                         binding.productsNoDataFoundTextView.visible()
-                        return@observe
                     }
 
                 }
