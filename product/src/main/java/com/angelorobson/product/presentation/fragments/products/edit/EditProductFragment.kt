@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.navArgs
 import com.angelorobson.core.extensions.displaySnackBar
+import com.angelorobson.core.extensions.getCurrencyFormat
 import com.angelorobson.core.utils.CallbackResult
 import com.angelorobson.core.utils.MoneyTextWatcher
 import com.angelorobson.product.R
@@ -63,7 +64,7 @@ class EditProductFragment : Fragment() {
                 }
                 is CallbackResult.Success -> {
                     binding.addFragment.product = it.data
-                    binding.addFragment.addProductPriceEditText.setText(it.data?.price.toString())
+                    binding.addFragment.addProductPriceEditText.setText(it.data?.price?.getCurrencyFormat())
                 }
             }
         })
