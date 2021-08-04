@@ -13,5 +13,6 @@ interface ProductRepository {
     suspend fun findById(id: Long): ProductData
     suspend fun findByName(name: String): ProductData
     suspend fun findByTerm(name: String): List<ProductData>
+    suspend  fun update(product: ProductSaveData)
 
 }

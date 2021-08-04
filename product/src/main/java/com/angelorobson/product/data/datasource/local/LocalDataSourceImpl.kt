@@ -39,7 +39,7 @@ class LocalDataSourceImpl(
 //        dao.inactivateProduct()
     }
 
-    override suspend fun update(product: ProductData) {
-
+    override suspend fun update(product: ProductSaveData) {
+        return dao.update(mapperSaveDomainToEntity.map(product))
     }
 }

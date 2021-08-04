@@ -18,7 +18,7 @@ class GetProductById(
         return flow {
             val item = repository.findById(id)
             emit(mapperData.map(item))
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
 

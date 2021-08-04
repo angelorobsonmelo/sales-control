@@ -14,5 +14,5 @@ interface LocalDataSource {
     suspend fun findByName(name: String): ProductData
     suspend fun findByTerm(name: String): List<ProductData>
     suspend  fun inactivateProduct(product: ProductData)
-    suspend  fun update(product: ProductData)
+    suspend  fun update(product: ProductSaveData)
 }

@@ -56,6 +56,7 @@ private val useCaseModules = module(override = true) {
     single<GetProductByNameUseCase> { GetProductByName(get(), get()) }
     single<GetProductByBarcodeUseCase> { GetProductByBarcode(get(), get()) }
     single<GetProductByIdUseCase> { GetProductById(get(), get()) }
+    single<EditProductUseCase> { EditProduct(get(), get()) }
 }
 
 private val viewModelModule = module(override = true) {

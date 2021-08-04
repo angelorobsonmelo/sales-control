@@ -32,5 +32,9 @@ class ProductRepositoryImpl(
         return localDataSource.findByTerm(name)
     }
 
+    override suspend fun update(product: ProductSaveData) {
+        return localDataSource.update(product)
+    }
+
 
 }
