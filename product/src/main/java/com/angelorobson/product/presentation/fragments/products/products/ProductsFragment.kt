@@ -63,6 +63,7 @@ class ProductsFragment : Fragment() {
         initObserver()
         initFloatingActionButtonListener()
         initSwipeRefreshListener()
+        initInactiveProductObserver()
     }
 
     private fun initSwipeRefreshListener() {
@@ -148,13 +149,13 @@ class ProductsFragment : Fragment() {
         Color.parseColor(requireContext().getString(android.R.color.holo_green_light)),
         Color.parseColor(requireContext().getString(android.R.color.white))
     ) { pos: Int ->
-         products[pos]?.run {
-             val action =
-                 ProductsFragmentDirections.actionProductsFragmentToEditProductFragment(
-                     this.id,
-                     this.name
-                 )
-             findNavController().navigate(action)
+        products[pos]?.run {
+            val action =
+                ProductsFragmentDirections.actionProductsFragmentToEditProductFragment(
+                    this.id,
+                    this.name
+                )
+            findNavController().navigate(action)
         }
 
     }
@@ -182,7 +183,7 @@ class ProductsFragment : Fragment() {
                 binding.productsNoDataFoundTextView.gone()
             },
             dismissTimeoutCallback = {
-
+                product?.run { viewModel.inactiveProduct(this) }
             })
     }
 
@@ -211,6 +212,22 @@ class ProductsFragment : Fragment() {
                         binding.productsNoDataFoundTextView.visible()
                     }
 
+                }
+            }
+        })
+    }
+
+    private fun initInactiveProductObserver() {
+        viewModel.inactiveProductFlow.asLiveData().observe(viewLifecycleOwner, {
+            when (it) {
+                is CallbackResult.Error -> {
+
+                }
+                is CallbackResult.Loading -> {
+
+                }
+                is CallbackResult.Success -> {
+                    print("ff")
                 }
             }
         })

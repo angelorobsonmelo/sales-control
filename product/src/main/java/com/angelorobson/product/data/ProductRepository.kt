@@ -14,5 +14,6 @@ interface ProductRepository {
     suspend fun findByName(name: String): ProductData
     suspend fun findByTerm(name: String): List<ProductData>
     suspend  fun update(product: ProductSaveData)
+    suspend fun inactivateProduct(product: ProductData)
 
 }

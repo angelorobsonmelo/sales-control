@@ -5,5 +5,6 @@ data class ProductPresentation(
     val name: String,
     val description: String,
     val price: Double,
-    val barcode: String
+    val barcode: String,
+    val isActive: Boolean
 )

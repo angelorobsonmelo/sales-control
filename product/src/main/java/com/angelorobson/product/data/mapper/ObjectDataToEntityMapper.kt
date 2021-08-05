@@ -12,7 +12,7 @@ class ObjectDataToEntityMapper : Mapper<ProductData, ProductEntity> {
         description = source.description,
         barcode = source.barcode,
         price = source.price,
-        isActive = true
+        isActive = source.isActive
     )
 
 

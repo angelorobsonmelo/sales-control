@@ -36,5 +36,9 @@ class ProductRepositoryImpl(
         return localDataSource.update(product)
     }
 
+    override suspend fun inactivateProduct(product: ProductData) {
+        localDataSource.inactivateProduct(product)
+    }
+
 
 }

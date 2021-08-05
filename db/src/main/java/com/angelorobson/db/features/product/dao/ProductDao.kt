@@ -30,9 +30,6 @@ interface ProductDao {
     suspend fun findByTerm(name: String): List<ProductEntity>
 
     @Update
-    suspend fun inactivateProduct(product: ProductEntity)
-
-    @Update
     suspend fun update(product: ProductEntity)
 
 }

@@ -11,7 +11,8 @@ class ObjectDataToDomainMapper : Mapper<ProductData, ProductDomain> {
         name = source.name,
         description = source.description,
         barcode = source.barcode,
-        price = source.price
+        price = source.price,
+        isActive = source.isActive
     )
 
 

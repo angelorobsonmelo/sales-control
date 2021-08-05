@@ -11,7 +11,8 @@ class ObjectDomainToPresentationMapper : Mapper<ProductDomain, ProductPresentati
         name = source.name,
         description = source.description,
         barcode = source.barcode,
-        price = source.price
+        price = source.price,
+        isActive = source.isActive
     )
 
 

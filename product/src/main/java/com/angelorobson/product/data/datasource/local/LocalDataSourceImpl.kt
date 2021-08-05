@@ -11,6 +11,7 @@ class LocalDataSourceImpl(
     private val dao: ProductDao,
     private val mapperEntity: ObjectEntityToDataMapper,
     private val mapperSaveDomainToEntity: ObjectProductSaveDataToEntityMapper,
+    private val mapperDataToEntity: ObjectDataToEntityMapper
 ) : LocalDataSource {
 
 
@@ -36,10 +37,11 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun inactivateProduct(product: ProductData) {
-//        dao.inactivateProduct()
+        dao.update(mapperDataToEntity.map(product))
     }
 
     override suspend fun update(product: ProductSaveData) {
         return dao.update(mapperSaveDomainToEntity.map(product))
     }
+
 }

@@ -43,7 +43,7 @@ private val mapperModules = module(override = true) {
 }
 
 private val localDataSourceModule = module(override = true) {
-    single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get()) }
+    single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get()) }
 }
 
 private val repositoryModules = module(override = true) {
@@ -57,10 +57,11 @@ private val useCaseModules = module(override = true) {
     single<GetProductByBarcodeUseCase> { GetProductByBarcode(get(), get()) }
     single<GetProductByIdUseCase> { GetProductById(get(), get()) }
     single<EditProductUseCase> { EditProduct(get(), get()) }
+    single<InactiveProductUseCase> { InactiveProduct(get(), get()) }
 }
 
 private val viewModelModule = module(override = true) {
-    viewModel { ProductsViewModel(get(), get(), get(), get()) }
+    viewModel { ProductsViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { AddProductViewModel(get(), get(), androidApplication()) }
     viewModel { EditProductViewModel(get(), get(), get(), get(), androidApplication()) }
 }
