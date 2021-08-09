@@ -160,13 +160,18 @@ class ProductsFragment : Fragment() {
 
     }
 
+    var productToRemove: ProductPresentation? = null
+
     private fun createAndHandleDeleteUnderlayButton() = SwipeHelper.UnderlayButton(
         getString(R.string.delete),
         AppCompatResources.getDrawable(requireContext(), R.drawable.ic_delete),
         Color.parseColor(requireContext().getString(android.R.color.holo_red_light)),
         Color.parseColor(requireContext().getString(android.R.color.white))
     ) { pos: Int ->
-        val product = products[pos]
+        productToRemove?.let {
+            viewModel.inactiveProduct(it)
+        }
+        productToRemove = products[pos]
 
         products.removeAt(pos)
         productAdapter.notifyItemRemoved(pos)
@@ -177,13 +182,15 @@ class ProductsFragment : Fragment() {
 
         binding.productsConstraintLayout.displaySnackBarWithUndoAction(
             undoClicked = {
-                products.add(pos, product)
+                products.add(pos, productToRemove)
                 productAdapter.notifyItemInserted(pos)
 
+                productToRemove = null
                 binding.productsNoDataFoundTextView.gone()
             },
             dismissTimeoutCallback = {
-                product?.run { viewModel.inactiveProduct(this) }
+                productToRemove?.run { viewModel.inactiveProduct(this) }
+                productToRemove = null
             })
     }
 

@@ -61,9 +61,11 @@ class EditProductViewModel(
                 .catch {
                     _productFlow.value = CallbackResult.Error(it.localizedMessage)
                 }
+                .map {
+                    domainToSaveProductPresentationMapper.map(it)
+                }
                 .collect {
-                    val item = domainToSaveProductPresentationMapper.map(it)
-                    _productFlow.value = CallbackResult.Success(item)
+                    _productFlow.value = CallbackResult.Success(it)
                 }
         }
     }

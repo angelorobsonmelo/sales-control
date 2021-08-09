@@ -10,10 +10,7 @@ import com.angelorobson.product.domain.usecase.InactiveProductUseCase
 import com.angelorobson.product.presentation.mapper.ObjectDomainToPresentationMapper
 import com.angelorobson.product.presentation.mapper.ObjectPresentationToDomainMapper
 import com.angelorobson.product.presentation.model.ProductPresentation
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class ProductsViewModel(
@@ -39,9 +36,11 @@ class ProductsViewModel(
                 .catch {
                     _productsFlow.value = CallbackResult.Error(it.localizedMessage)
                 }
+                .map {
+                    it.map { productDomain -> mapperDomain.map(productDomain) }
+                }
                 .collect {
-                    val items = it.map { productDomain -> mapperDomain.map(productDomain) }
-                    _productsFlow.value = CallbackResult.Success(items)
+                    _productsFlow.value = CallbackResult.Success(it)
                 }
         }
     }
@@ -52,9 +51,11 @@ class ProductsViewModel(
                 .catch {
                     _productsFlow.value = CallbackResult.Error(it.localizedMessage)
                 }
+                .map {
+                    it.map { productDomain -> mapperDomain.map(productDomain) }
+                }
                 .collect {
-                    val items = it.map { productDomain -> mapperDomain.map(productDomain) }
-                    _productsFlow.value = CallbackResult.Success(items)
+                    _productsFlow.value = CallbackResult.Success(it)
                 }
         }
     }
@@ -77,9 +78,13 @@ class ProductsViewModel(
                 .catch {
                     _productsFlow.value = CallbackResult.Error(it.localizedMessage)
                 }
+                .map {
+                    it.map { productDomain ->
+                        mapperDomain.map(productDomain)
+                    }
+                }
                 .collect {
-                    val items = it.map { productDomain -> mapperDomain.map(productDomain) }
-                    _productsFlow.value = CallbackResult.Success(items)
+                    _productsFlow.value = CallbackResult.Success(it)
                 }
         }
     }

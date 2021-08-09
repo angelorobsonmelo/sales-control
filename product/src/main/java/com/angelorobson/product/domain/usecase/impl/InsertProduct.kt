@@ -19,9 +19,10 @@ class InsertProduct(
 
 
     override suspend fun invoke(productDomain: ProductSaveDomain): Flow<Long> {
-       return flow {
+        return flow {
             val id = repository.insert(mapper.map(productDomain))
             emit(id)
-        }.flowOn(Dispatchers.IO)
+        }
+            .flowOn(Dispatchers.IO)
     }
 }
