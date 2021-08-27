@@ -3,8 +3,8 @@ package com.angelorobson.product
 import com.angelorobson.db.RoomDatabaseSalesControl
 import com.angelorobson.product.data.ProductRepository
 import com.angelorobson.product.data.ProductRepositoryImpl
-import com.angelorobson.product.data.datasource.local.LocalDataSource
-import com.angelorobson.product.data.datasource.local.LocalDataSourceImpl
+import com.angelorobson.product.data.datasource.local.ProductLocalDataSource
+import com.angelorobson.product.data.datasource.local.ProductLocalDataSourceImpl
 import com.angelorobson.product.data.mapper.ObjectDataToEntityMapper
 import com.angelorobson.product.data.mapper.ObjectEntityToDataMapper
 import com.angelorobson.product.data.mapper.ObjectProductSaveDataToEntityMapper
@@ -43,7 +43,7 @@ private val mapperModules = module(override = true) {
 }
 
 private val localDataSourceModule = module(override = true) {
-    single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get()) }
+    single<ProductLocalDataSource> { ProductLocalDataSourceImpl(get(), get(), get(), get()) }
 }
 
 private val repositoryModules = module(override = true) {

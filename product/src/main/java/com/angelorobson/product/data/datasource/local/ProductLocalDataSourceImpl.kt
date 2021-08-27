@@ -7,12 +7,12 @@ import com.angelorobson.product.data.mapper.ObjectProductSaveDataToEntityMapper
 import com.angelorobson.product.data.model.ProductData
 import com.angelorobson.product.data.model.ProductSaveData
 
-class LocalDataSourceImpl(
+class ProductLocalDataSourceImpl(
     private val dao: ProductDao,
     private val mapperEntity: ObjectEntityToDataMapper,
     private val mapperSaveDomainToEntity: ObjectProductSaveDataToEntityMapper,
     private val mapperDataToEntity: ObjectDataToEntityMapper
-) : LocalDataSource {
+) : ProductLocalDataSource {
 
 
     override suspend fun insert(products: List<ProductData>) {

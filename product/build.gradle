@@ -28,6 +28,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     buildFeatures {
         viewBinding true
         dataBinding true
@@ -40,6 +46,8 @@ android {
 
 dependencies {
 
+    def dependencies = rootProject.ext.dependencies
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(path: ':core')
@@ -48,4 +56,31 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    /**
+     * Automated tests
+     */
+    testImplementation dependencies.coreTesting
+    testImplementation dependencies.junit
+    testImplementation dependencies.mockk
+    testImplementation dependencies.testCore
+    testImplementation dependencies.coroutinesTest
+    testImplementation dependencies.junit
+    testImplementation 'org.robolectric:robolectric:4.6.1'
+
+
+    androidTestImplementation dependencies.navigationTesting
+
+    // ...
+    debugImplementation dependencies.fragmentTesting
+    debugImplementation dependencies.junitKxt
+    debugImplementation dependencies.testRunner
+    debugImplementation dependencies.koinTest
+    debugImplementation dependencies.mockkAndroid
+    debugImplementation dependencies.espressoCore
+
+    /**
+     * Analysing memory leaks
+     */
+    debugImplementation dependencies.leakcanaryAndroid
 }

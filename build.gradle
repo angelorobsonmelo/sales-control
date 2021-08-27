@@ -4,6 +4,7 @@ ext {
     retrofitVersion = '2.9.0'
     moshiVersion = '1.11.0'
     koinVersion = "2.2.0"
+    robolectricVersion = "4.6.1"
     coroutinesVersion = "1.4.3"
     navigationVersion = "2.4.0-alpha01"
     lifecycleVersion = "2.3.1"
@@ -84,6 +85,7 @@ ext {
             koinAndroid              : "org.koin:koin-android:$koinVersion",
             androidxScope            : "org.koin:koin-androidx-scope:$koinVersion",
             androidxViewmodel        : "org.koin:koin-androidx-viewmodel:$koinVersion",
+            robolectric              : "org.robolectric:robolectric:$robolectricVersion",
     ]
 
 }
@@ -97,7 +99,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0'
+        classpath 'com.android.tools.build:gradle:7.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$safe_args_version"
 

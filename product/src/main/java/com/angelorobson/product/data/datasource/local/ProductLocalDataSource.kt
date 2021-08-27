@@ -4,7 +4,7 @@ import com.angelorobson.product.data.model.ProductData
 import com.angelorobson.product.data.model.ProductSaveData
 
 
-interface LocalDataSource {
+interface ProductLocalDataSource {
 
     suspend fun insert(products: List<ProductData>)
     suspend fun insert(product: ProductSaveData): Long

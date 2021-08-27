@@ -90,29 +90,4 @@ dependencies {
     api dependencies.facebookShimmer
     api dependencies.shimmerRecyclerview
 
-
-    /**
-     * Automated tests
-     */
-    testImplementation dependencies.coreTesting
-    testImplementation dependencies.junit
-    testImplementation dependencies.mockk
-    testImplementation dependencies.testCore
-    testImplementation dependencies.coroutinesTest
-    testImplementation dependencies.junit
-
-    androidTestImplementation dependencies.navigationTesting
-
-    // ...
-    debugImplementation dependencies.fragmentTesting
-    debugImplementation dependencies.junitKxt
-    debugImplementation dependencies.testRunner
-    debugImplementation dependencies.koinTest
-    debugImplementation dependencies.mockkAndroid
-    debugImplementation dependencies.espressoCore
-
-    /**
-     * Analysing memory leaks
-     */
-    debugImplementation dependencies.leakcanaryAndroid
 }

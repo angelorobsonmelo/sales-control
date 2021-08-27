@@ -1,11 +1,11 @@
 package com.angelorobson.product.data
 
-import com.angelorobson.product.data.datasource.local.LocalDataSource
+import com.angelorobson.product.data.datasource.local.ProductLocalDataSource
 import com.angelorobson.product.data.model.ProductData
 import com.angelorobson.product.data.model.ProductSaveData
 
 class ProductRepositoryImpl(
-    private val localDataSource: LocalDataSource
+    private val productLocalDataSource: ProductLocalDataSource
 ) : ProductRepository {
 
     override suspend fun insert(products: List<ProductData>) {
@@ -13,31 +13,31 @@ class ProductRepositoryImpl(
     }
 
     override suspend fun insert(product: ProductSaveData): Long {
-        return localDataSource.insert(product)
+        return productLocalDataSource.insert(product)
     }
 
     override suspend fun getAll(): List<ProductData> =
-        localDataSource.getAll()
+        productLocalDataSource.getAll()
 
     override suspend fun findByBarcode(barcode: String): List<ProductData> =
-        localDataSource.findByBarcode(barcode)
+        productLocalDataSource.findByBarcode(barcode)
 
     override suspend fun findById(id: Long): ProductData =
-        localDataSource.findById(id)
+        productLocalDataSource.findById(id)
 
     override suspend fun findByName(name: String): ProductData =
-        localDataSource.findByName(name)
+        productLocalDataSource.findByName(name)
 
     override suspend fun findByTerm(name: String): List<ProductData> {
-        return localDataSource.findByTerm(name)
+        return productLocalDataSource.findByTerm(name)
     }
 
     override suspend fun update(product: ProductSaveData) {
-        return localDataSource.update(product)
+        return productLocalDataSource.update(product)
     }
 
     override suspend fun inactivateProduct(product: ProductData) {
-        localDataSource.inactivateProduct(product)
+        productLocalDataSource.inactivateProduct(product)
     }
 
 
