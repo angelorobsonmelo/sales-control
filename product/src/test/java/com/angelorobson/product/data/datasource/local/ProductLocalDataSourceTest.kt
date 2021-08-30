@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
-class ProductLocalDataSourceImplTest {
+class ProductLocalDataSourceTest {
 
 
     private lateinit var db: RoomDatabaseSalesControl
@@ -37,8 +37,8 @@ class ProductLocalDataSourceImplTest {
     }
 
     @Test
-    fun insertProducts_whenSuccess_returnedListOfProducts() = runBlocking {
-        // Arrange
+    fun `When getAll in dao should return a list of products`() = runBlocking {
+        // Given
         val products = (1..10).map { i ->
             ProductEntity(
                 name = "product $i",
@@ -49,16 +49,16 @@ class ProductLocalDataSourceImplTest {
             )
         }
 
-        // Action
+        // When
         dao.insert(products)
 
-        // Asserts
+        // Then
         assertThat(products.size, equalTo(dao.getAll().size))
     }
 
     @Test
-    fun insert_products_afterInserted_returnId() = runBlocking {
-        // Arrange
+    fun `When insert product in dao should return id bigger then 0`() = runBlocking {
+        // Given
         val productEntity = ProductEntity(
             name = "product",
             price = 10.0,
@@ -67,16 +67,16 @@ class ProductLocalDataSourceImplTest {
             isActive = true
         )
 
-        // Action
+        // When
         val id = dao.insert(productEntity)
 
-        // Assert
+        // Then
         assertTrue(id != 0L)
     }
 
     @Test
-    fun update_product_afterUpdated_returnProductUpdated() = runBlocking {
-        // Arrange
+    fun `When update product should return from dao a product updated`() = runBlocking {
+        // Given
         var productEntityToUpdated: ProductEntity?
         val nameExpected = "product updated"
         val productEntity = ProductEntity(
@@ -87,20 +87,20 @@ class ProductLocalDataSourceImplTest {
             isActive = true
         )
 
-        // Action
+        // When
         dao.insert(productEntity)
         productEntityToUpdated = dao.getAll().first().copy(name = "product updated")
         dao.update(productEntityToUpdated)
 
         productEntityToUpdated = dao.getAll().first()
 
-        // Assert
+        // Then
         assertEquals(nameExpected, productEntityToUpdated.name)
     }
 
     @Test
-    fun getAll_whenSuccess_getProductsList() = runBlocking {
-        // Arrange
+    fun `When getAll in database should return product list`() = runBlocking {
+        // Given
         val productsExpected = (1..10).map { i ->
             ProductEntity(
                 name = "product $i",
@@ -111,17 +111,17 @@ class ProductLocalDataSourceImplTest {
             )
         }
 
-        // Action
+        // When
         dao.insert(productsExpected)
         val productActual = dao.getAll()
 
-        // Asserts
+        // Then
         assertEquals(productsExpected.size, productActual.size)
     }
 
     @Test
-    fun findByBarcode_shouldReturnCorrectProduct() = runBlocking {
-        // Arrange
+    fun `When findByBarcode should return a product list`() = runBlocking {
+        // Given
         val barcodeExpected = "121"
         val productsExpected = (1..10).map { i ->
             ProductEntity(
@@ -133,17 +133,17 @@ class ProductLocalDataSourceImplTest {
             )
         }
 
-        // Action
+        // When
         dao.insert(productsExpected)
         val productActual = dao.findByBarcode(barcodeExpected)
 
-        // Asserts
+        // Then
         assertEquals(barcodeExpected, productActual.first().barcode)
     }
 
     @Test
-    fun findById() = runBlocking {
-        // Arrange
+    fun `When findById should return a product`() = runBlocking {
+        // Given
         val productsExpected = (1..10).map { i ->
             ProductEntity(
                 name = "product $i",
@@ -154,18 +154,18 @@ class ProductLocalDataSourceImplTest {
             )
         }
 
-        // Action
+        // When
         dao.insert(productsExpected)
         val productReturned = dao.findByBarcode("123")
         val productActual = dao.findById(productReturned.first().id)
 
-        // Asserts
+        // Then
         assertNotNull(productActual)
     }
 
     @Test
-    fun findByName() = runBlocking {
-        // Arrange
+    fun `When findByName should return a product`() = runBlocking {
+        // Given
         val productsExpected = (1..10).map { i ->
             ProductEntity(
                 name = "product $i",
@@ -176,17 +176,17 @@ class ProductLocalDataSourceImplTest {
             )
         }
 
-        // Action
+        // When
         dao.insert(productsExpected)
         val productReturned = dao.findByName("product 2")
 
-        // Asserts
+        // Then
         assertNotNull(productReturned)
     }
 
     @Test
-    fun findByTerm() = runBlocking {
-        // Arrange
+    fun `When findByTerm should return a list of products`() = runBlocking {
+        // Given
         val productsExpected = (1..10).map { i ->
             ProductEntity(
                 name = "product $i",
@@ -197,17 +197,17 @@ class ProductLocalDataSourceImplTest {
             )
         }
 
-        // Action
+        // When
         dao.insert(productsExpected)
         val productReturned = dao.findByTerm("%pro%")
 
-        // Asserts
+        // Then
         assertEquals(productsExpected.size, productReturned.size)
     }
 
     @Test
-    fun inactivateProduct() = runBlocking {
-        // Arrange
+    fun `When inactivateProduct should not return product`() = runBlocking {
+        // Given
         val productEntity = ProductEntity(
             name = "product",
             price = 10.0,
@@ -216,14 +216,14 @@ class ProductLocalDataSourceImplTest {
             isActive = true
         )
 
-        // Action
+        // When
         dao.insert(productEntity)
         val productReturned = dao.findByName(productEntity.name)
         val copy = productReturned.copy(isActive = false)
         dao.update(copy)
         val productsEntityToUpdated: List<ProductEntity> = dao.getAll()
 
-        // Assert
+        // Then
         assertTrue(productsEntityToUpdated.isEmpty())
     }
 

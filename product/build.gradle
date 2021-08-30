@@ -52,21 +52,21 @@ dependencies {
 
     implementation project(path: ':core')
 
-    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    implementation dependencies.zxingAandroid
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     /**
      * Automated tests
      */
     testImplementation dependencies.coreTesting
     testImplementation dependencies.junit
-    testImplementation dependencies.mockk
     testImplementation dependencies.testCore
     testImplementation dependencies.coroutinesTest
     testImplementation dependencies.junit
-    testImplementation 'org.robolectric:robolectric:4.6.1'
+    testImplementation dependencies.mockitoKotlin
+    testImplementation dependencies.robolectric
 
 
     androidTestImplementation dependencies.navigationTesting
@@ -76,7 +76,6 @@ dependencies {
     debugImplementation dependencies.junitKxt
     debugImplementation dependencies.testRunner
     debugImplementation dependencies.koinTest
-    debugImplementation dependencies.mockkAndroid
     debugImplementation dependencies.espressoCore
 
     /**
