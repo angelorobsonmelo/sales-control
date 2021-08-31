@@ -3,25 +3,26 @@ package com.angelorobson.product.domain.usecase.impl
 import com.angelorobson.product.data.ProductRepository
 import com.angelorobson.product.data.model.ProductData
 import com.angelorobson.product.domain.mapper.ObjectDataToDomainMapper
-import com.angelorobson.product.domain.usecase.GetProductsUseCase
+import com.angelorobson.product.domain.usecase.GetProductByNameUseCase
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class GetProductsUseCaseTest {
+class GetProductByNameTest {
 
     private val repository: ProductRepository = mock()
-
-    private val useCase: GetProductsUseCase by lazy {
-        GetProducts(repository, ObjectDataToDomainMapper())
+    private val useCase: GetProductByNameUseCase by lazy {
+        GetProductByName(repository, ObjectDataToDomainMapper())
     }
 
     @Test
-    fun `When invoke should return a product`() = runBlocking {
+    fun `When getProductByName should return a product`() = runBlocking {
         // Given
+        val name = "name"
         val products = (1..10).map { i ->
             ProductData(
                 i.toLong(),
@@ -32,14 +33,15 @@ class GetProductsUseCaseTest {
                 isActive = true
             )
         }
-        whenever(repository.getAll()).thenReturn(products)
+        whenever(repository.findByTerm(any())).thenReturn(products)
 
         // When
-        val result = useCase.invoke()
+        val result = useCase.invoke(any())
 
         // Then
         result.collect {
-            Assert.assertEquals(products.size, it.size)
+            assertEquals(products.size, it.size)
         }
     }
+
 }
