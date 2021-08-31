@@ -36,7 +36,7 @@ class GetProductByNameTest {
         whenever(repository.findByTerm(any())).thenReturn(products)
 
         // When
-        val result = useCase.invoke(any())
+        val result = useCase.invoke("123")
 
         // Then
         result.collect {
