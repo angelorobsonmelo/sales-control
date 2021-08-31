@@ -17,8 +17,7 @@ class GetProductByBarcode(
 
     override suspend fun invoke(barcode: String): Flow<List<ProductDomain>> {
         return flow {
-            val term = "%$barcode%"
-            val items = repository.findByBarcode(term).map { mapperData.map(it) }
+            val items = repository.findByBarcode(barcode).map { mapperData.map(it) }
             emit(items)
         }.flowOn(Dispatchers.IO)
     }

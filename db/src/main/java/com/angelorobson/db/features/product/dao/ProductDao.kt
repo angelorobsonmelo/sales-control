@@ -17,7 +17,7 @@ interface ProductDao {
     @Query("SELECT * FROM ProductEntity WHERE isActive = 1 ORDER BY name")
     suspend fun getAll(): List<ProductEntity>
 
-    @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND barcode LIKE :barCode ORDER BY name")
+    @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND barcode = :barCode ORDER BY name")
     suspend fun findByBarcode(barCode: String): List<ProductEntity>
 
     @Query("SELECT * FROM ProductEntity WHERE isActive = 1 AND id = :id")
