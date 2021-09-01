@@ -11,6 +11,9 @@ import com.angelorobson.product.presentation.model.ProductToSavePresentation
 import com.angelorobson.product.utils.MainCoroutineRule
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.*
@@ -18,6 +21,8 @@ import org.junit.Rule
 
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.lang.Exception
+import kotlin.jvm.Throws
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -56,5 +61,26 @@ class AddProductViewModelTest {
 
         // Then
         assertEquals(id, (viewModel.saveResultFlow.value as CallbackResult.Success).data)
+    }
+
+    @Test
+    fun `When saveProduct should return Error`() = runBlockingTest {
+        // Given
+        val errorMessage = "error"
+        val productPresentation = ProductToSavePresentation(
+            name = "name",
+            description = "description",
+            price = 10.0,
+            barcode = "123"
+        )
+
+        whenever(useCase.invoke(any())) doReturn callbackFlow { Exception(errorMessage) }
+
+        // When
+        viewModel.saveProduct(productPresentation)
+
+
+        // Then
+        assertTrue(viewModel.saveResultFlow.value is CallbackResult.Error)
     }
 }

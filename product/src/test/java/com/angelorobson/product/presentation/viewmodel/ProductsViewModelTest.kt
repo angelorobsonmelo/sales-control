@@ -13,11 +13,9 @@ import com.angelorobson.product.presentation.mapper.ObjectDomainToPresentationMa
 import com.angelorobson.product.presentation.mapper.ObjectPresentationToDomainMapper
 import com.angelorobson.product.presentation.model.ProductPresentation
 import com.angelorobson.product.utils.MainCoroutineRule
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.eq
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -27,6 +25,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.lang.Exception
 
 @ExperimentalCoroutinesApi
 class ProductsViewModelTest {
@@ -82,6 +81,18 @@ class ProductsViewModelTest {
     }
 
     @Test
+    fun `When getProducts should return an error`() = runBlockingTest {
+        // Given
+        whenever(getProductsUseCase.invoke()) doReturn callbackFlow { Exception("") }
+
+        // When
+        viewModel.getProducts()
+
+        //  Then
+        assertTrue(viewModel.productsFlow.value is CallbackResult.Error)
+    }
+
+    @Test
     fun `When findByName should return a product`() = runBlockingTest {
         // Given
         val name = "name"
@@ -106,16 +117,21 @@ class ProductsViewModelTest {
     }
 
     @Test
+    fun `When findByName should return an error`() = runBlockingTest {
+        // Given
+        val name = "name"
+        whenever(getByNameUseCase.invoke(eq(name))) doReturn callbackFlow { Exception("") }
+
+        // When
+        viewModel.findByName(name)
+
+        //  Then
+        assertTrue(viewModel.productsFlow.value is CallbackResult.Error)
+    }
+
+    @Test
     fun `When inactiveProduct should return success`() = runBlockingTest {
         // Given
-        val product = ProductDomain(
-            1L,
-            "product",
-            "description ",
-            10.0,
-            "12",
-            isActive = true
-        )
         val productPresentation = ProductPresentation(
             name = "name",
             description = "description",
@@ -130,6 +146,25 @@ class ProductsViewModelTest {
 
         // Then
         assertTrue(viewModel.inactiveProductFlow.value is CallbackResult.Success)
+    }
+
+    @Test
+    fun `When inactiveProduct should return an error`() = runBlockingTest {
+        // Given
+        val productPresentation = ProductPresentation(
+            name = "name",
+            description = "description",
+            price = 10.0,
+            barcode = "123",
+            isActive = true
+        )
+        whenever(inactiveProductUseCase.invoke(any())) doReturn callbackFlow { Exception("") }
+
+        // When
+        viewModel.inactiveProduct(productPresentation)
+
+        // Then
+        assertTrue(viewModel.inactiveProductFlow.value is CallbackResult.Error)
     }
 
     @Test
@@ -155,4 +190,18 @@ class ProductsViewModelTest {
         // Then
         assertTrue(viewModel.productsFlow.value is CallbackResult.Success)
     }
+
+    @Test
+    fun `When findByBarcode should return an error`() = runBlockingTest {
+        // Given
+        val barcode = "123"
+        whenever(getByBarcode.invoke(eq(barcode))) doReturn callbackFlow { Exception("") }
+
+        // When
+        viewModel.findByBarcode(barcode)
+
+        // Then
+        assertTrue(viewModel.productsFlow.value is CallbackResult.Error)
+    }
+
 }

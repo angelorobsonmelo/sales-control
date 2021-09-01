@@ -12,11 +12,9 @@ import com.angelorobson.product.presentation.mapper.ObjectDomainToSaveProductPre
 import com.angelorobson.product.presentation.mapper.ObjectSaveProductPresentationToDomainMapper
 import com.angelorobson.product.presentation.model.ProductToSavePresentation
 import com.angelorobson.product.utils.MainCoroutineRule
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.eq
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
@@ -25,6 +23,7 @@ import org.junit.Rule
 
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.lang.Exception
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -69,6 +68,21 @@ class EditProductViewModelTest {
     }
 
     @Test
+    fun `When saveProduct should return Error`() = runBlockingTest {
+        // Given
+        val product =
+            ProductToSavePresentation(name = "123", barcode = "", price = 10.0, description = "554")
+
+        whenever(editProductUseCase.invoke(any())) doReturn callbackFlow { Exception("") }
+
+        // When
+        viewModel.saveProduct(product)
+
+        // Then
+        assertTrue(viewModel.saveResultFlow.value is CallbackResult.Error)
+    }
+
+    @Test
     fun `When getProduct should return a product`() = runBlockingTest {
         // Given
         val id = 1L
@@ -88,4 +102,18 @@ class EditProductViewModelTest {
         //  Then
         assertEquals(id, (viewModel.productFlow.value as CallbackResult.Success).data?.id)
     }
+
+    @Test
+    fun `When getProduct should return an error`() = runBlockingTest {
+        // Given
+        val id = 1L
+        whenever(getProductByIdUseCase.invoke(eq(id))) doReturn callbackFlow { Exception("") }
+
+        // When
+        viewModel.getProduct(id)
+
+        //  Then
+        assertTrue(viewModel.productFlow.value is CallbackResult.Error)
+    }
+
 }
