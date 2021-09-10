@@ -13,7 +13,8 @@ android {
         minSdkVersion 24
         targetSdkVersion 30
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.angelorobson.product.runner.TestApplicationRunner"
+
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -29,6 +30,7 @@ android {
     }
 
     testOptions {
+        animationsDisabled = true
         unitTests {
             includeAndroidResources = true
         }
@@ -54,8 +56,7 @@ dependencies {
 
     implementation dependencies.zxingAandroid
 
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kaptAndroidTest 'androidx.databinding:databinding-compiler:7.0.2'
 
     /**
      * Automated tests
@@ -69,13 +70,17 @@ dependencies {
     testImplementation dependencies.robolectric
 
 
+   // Android testing
+    androidTestImplementation dependencies.mockitoKotlin
     androidTestImplementation dependencies.navigationTesting
+
 
     // ...
     debugImplementation dependencies.fragmentTesting
     debugImplementation dependencies.junitKxt
     debugImplementation dependencies.testRunner
     debugImplementation dependencies.koinTest
+    debugImplementation dependencies.mockkAndroid
     debugImplementation dependencies.espressoCore
 
     /**
