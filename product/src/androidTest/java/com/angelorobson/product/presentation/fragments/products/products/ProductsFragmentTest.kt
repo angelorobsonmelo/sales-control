@@ -1,13 +1,13 @@
 package com.angelorobson.product.presentation.fragments.products.products
 
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.testing.TestNavHostController
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.angelorobson.product.R
 import com.angelorobson.product.domain.model.ProductDomain
 import com.angelorobson.product.domain.usecase.GetProductByBarcodeUseCase
@@ -20,6 +20,7 @@ import com.angelorobson.product.presentation.viewmodel.ProductsViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
@@ -30,8 +31,12 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import org.mockito.Mockito.mock
+
 
 @RunWith(AndroidJUnit4::class)
+@ExperimentalCoroutinesApi
+@MediumTest
 class ProductsFragmentTest {
 
     private val getProductsUseCase = mockk<GetProductsUseCase>(relaxed = true)
@@ -40,9 +45,9 @@ class ProductsFragmentTest {
     private val getByBarcode = mockk<GetProductByBarcodeUseCase>(relaxed = true)
     private val mapperDomain = ObjectDomainToPresentationMapper()
     private val mapperPresentationToDomainMapper = ObjectPresentationToDomainMapper()
+    private val mockNavController = mockk<NavController>(relaxed = true)
 
     private lateinit var module: Module
-
 
     @Before
     fun setUp() {
@@ -84,27 +89,28 @@ class ProductsFragmentTest {
 
         coEvery { getProductsUseCase.invoke() } returns flowOf(products)
 
-        // Create a TestNavHostController
-        val navController = TestNavHostController(
-            ApplicationProvider.getApplicationContext()
-        )
+        launchFragment()
 
-        // Create a graphical FragmentScenario for the TitleScreen
-        val titleScenario = launchFragmentInContainer<ProductsFragment>(
-            themeResId = R.style.Theme_MaterialComponents_Light_NoActionBar
-        )
-
-        titleScenario.onFragment { fragment ->
-            // Set the graph on the TestNavHostController
-            navController.setGraph(R.navigation.products_nav_graph)
-
-            // Make the NavController available via the findNavController() APIs
-            Navigation.setViewNavController(fragment.requireView(), navController)
-        }
-
-        // Verify that performing a click changes the NavController’s state
-        onView(ViewMatchers.withId(R.id.products_floating_action_button)).perform(ViewActions.click())
-//        assertThat(navController.currentDestination?.id).isEqualTo(R.id.in_game)
+        onView(withId(R.id.products_floating_action_button)).perform(click())
+//        assertThat(mockNavController.currentDestination?.id).isEqualTo(R.id.)
     }
+
+
+    private fun launchFragment() {
+        mockNavController.setGraph(R.navigation.products_nav_graph)
+
+        launchFragmentInContainer(
+            themeResId = R.style.Theme_MaterialComponents_Light_NoActionBar
+        ) {
+            ProductsFragment().also { fragment ->
+                fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
+                    if (viewLifecycleOwner != null) {
+                        Navigation.setViewNavController(fragment.requireView(), mockNavController)
+                    }
+                }
+            }
+        }
+    }
+
 
 }

@@ -74,7 +74,6 @@ dependencies {
     androidTestImplementation dependencies.mockitoKotlin
     androidTestImplementation dependencies.navigationTesting
 
-
     // ...
     debugImplementation dependencies.fragmentTesting
     debugImplementation dependencies.junitKxt
