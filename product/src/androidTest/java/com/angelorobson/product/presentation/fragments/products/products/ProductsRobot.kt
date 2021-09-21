@@ -1,9 +1,7 @@
 package com.angelorobson.product.presentation.fragments.products.products
 
-import androidx.test.espresso.matcher.ViewMatchers.*
 import com.angelorobson.product.BaseRobot
 import com.angelorobson.product.R
-import org.hamcrest.CoreMatchers.*
 
 fun productsRobot(func: ProductsRobot.() -> Unit) = ProductsRobot().apply(func)
 
@@ -13,8 +11,16 @@ class ProductsRobot : BaseRobot() {
         isVisible(R.id.products_recycler_view)
     }
 
-    fun visibleCountTextView(position: Int = 0, recyclerViewId: Int, recyclerViewChildId: Int) {
-        isRecyclerViewChildIsVisible(position, recyclerViewId, recyclerViewChildId)
+    fun visibleProductNameTextView() {
+        isRecyclerViewChildIsVisible(0, R.id.products_recycler_view, R.id.product_item_name_text_view)
+    }
+
+    fun visibleProductDescriptionTextView() {
+        isRecyclerViewChildIsVisible(0, R.id.products_recycler_view, R.id.product_item_description_text_view)
+    }
+
+    fun visibleProductPriceTextView() {
+        isRecyclerViewChildIsVisible(0, R.id.products_recycler_view, R.id.product_item_price_text_view)
     }
 
 //    fun notVisibleButtonTryAgain() {

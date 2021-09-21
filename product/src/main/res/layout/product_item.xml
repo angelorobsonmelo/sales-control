@@ -28,6 +28,7 @@
             android:padding="8dp">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/product_item_name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{item.name}"
@@ -37,6 +38,7 @@
                 tools:text="Product name" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/product_item_description_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{item.description}"
@@ -45,6 +47,7 @@
                 tools:text="Product Description" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/product_item_price_text_view"
                 price="@{item.price}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
