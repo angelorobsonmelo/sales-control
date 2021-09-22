@@ -3,15 +3,38 @@ package com.angelorobson.product
 import android.content.res.Resources
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.UiController
 import androidx.test.espresso.matcher.BoundedMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
+import androidx.test.espresso.ViewAction
+
+
+
 
 fun withRecyclerView(recyclerViewId: Int) = RecyclerViewMatcher(recyclerViewId)
 
 fun withRecyclerViewItem(recyclerViewId: Int, position: Int) =
     RecyclerViewMatcher(recyclerViewId, position)
+
+fun clickChildViewWithId(id: Int): ViewAction {
+    return object : ViewAction {
+        override fun getConstraints(): Matcher<View>? {
+            return null
+        }
+
+        override fun getDescription(): String {
+            return "Click on a child view with specified id."
+        }
+
+        override fun perform(uiController: UiController?, view: View) {
+            val v = view.findViewById<View>(id)
+            v.performClick()
+        }
+    }
+}
+
 
 fun hasItemCount(itemCount: Int): Matcher<View> {
     return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
@@ -145,4 +168,5 @@ class RecyclerViewMatcher(private val recyclerViewId: Int, var position: Int = -
                 }
             }
         }
+
 }

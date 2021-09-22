@@ -66,6 +66,39 @@ class ProductsFragmentTest: SaleControlBaseTest() {
         }
     }
 
+    @Test
+    fun when_launch_screen_with_list_empty_a_text_view_empty_data_should_show() {
+        coEvery { getProductsUseCase.invoke() } returns flowOf(listOf())
+
+        launchFragment()
+
+        productsRobot {
+            visibleNoDataFoundTextView()
+        }
+    }
+
+    @Test
+    fun when_launch_screen_and_swipe_item_to_left_should_show_edit_and_delete_options() {
+        val products = (1..10).map { i ->
+            ProductDomain(
+                i.toLong(),
+                "product $i",
+                "description $i",
+                10.0 + i,
+                "12$i",
+                isActive = true
+            )
+        }
+
+        coEvery { getProductsUseCase.invoke() } returns flowOf(products)
+
+        launchFragment()
+
+//        productsRobot {
+//            swipeLeft()
+//        }
+    }
+
     private fun launchFragment() {
         launchFragmentInContainer(themeResId = R.style.Theme_MaterialComponents_Light_NoActionBar) {
 

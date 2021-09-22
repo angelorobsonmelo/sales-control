@@ -9,6 +9,7 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+//import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -93,6 +94,14 @@ open class BaseRobot {
             )
         )
     }
+
+  /*  fun clickOnRecyclerViewItem(
+        recyclerViewId: Int,
+        recyclerViewChildId: Int
+    ) {
+        onView(withId(recyclerViewId)).perform(
+            RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id. bt_deliver)));
+    }*/
 
     fun forceClick(): ViewAction? {
         return object : ViewAction {
