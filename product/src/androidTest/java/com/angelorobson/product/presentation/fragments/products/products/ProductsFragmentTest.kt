@@ -94,9 +94,10 @@ class ProductsFragmentTest: SaleControlBaseTest() {
 
         launchFragment()
 
-//        productsRobot {
-//            swipeLeft()
-//        }
+        productsRobot {
+            swipeLeft()
+            print("")
+        }
     }
 
     private fun launchFragment() {

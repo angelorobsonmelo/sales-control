@@ -84,6 +84,7 @@ ext {
             koinTest                 : "org.koin:koin-test:$koinVersion",
             mockkAndroid             : "io.mockk:mockk-android:$mockkVersion",
             espressoCore             : "androidx.test.espresso:espresso-core:$espressoVersion",
+            espressoContrib          : "androidx.test.espresso:espresso-contrib:$espressoVersion",
             leakcanaryAndroid        : "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
             roomCompiler             : "androidx.room:room-compiler:$roomVersion",
             roomKtx                  : "androidx.room:room-ktx:$roomVersion",

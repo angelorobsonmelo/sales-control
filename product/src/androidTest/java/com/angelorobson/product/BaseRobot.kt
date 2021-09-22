@@ -7,14 +7,17 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 //import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
+import com.angelorobson.product.presentation.adapters.ProductsAdapter
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
@@ -32,6 +35,15 @@ open class BaseRobot {
 
     fun isVisible(viewId: Int) {
         onView(withId(viewId)).check(matches(isDisplayed()))
+    }
+
+    fun swipeLeft(recyclerViewId: Int) {
+        onView(withId(recyclerViewId)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<ProductsAdapter.ProductsViewHolder>(
+                0,
+                ViewActions.swipeLeft()
+            )
+        )
     }
 
     fun isNotVisible(viewId: Int) {
