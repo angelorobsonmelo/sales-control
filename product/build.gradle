@@ -73,8 +73,8 @@ dependencies {
    // Android testing
     androidTestImplementation dependencies.mockitoKotlin
     androidTestImplementation dependencies.navigationTesting
-    androidTestImplementation 'org.mockito:mockito-android:3.2.4'
-    androidTestImplementation "com.google.truth:truth:1.1.2"
+    androidTestImplementation dependencies.mockitoAndroid
+    androidTestImplementation dependencies.truth
 
     // ...
     debugImplementation dependencies.fragmentTesting
