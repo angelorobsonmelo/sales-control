@@ -23,6 +23,7 @@
         app:cardBackgroundColor="?attr/colorSurface">
 
         <LinearLayout
+            android:id="@+id/product_item_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

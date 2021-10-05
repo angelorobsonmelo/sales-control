@@ -95,8 +95,7 @@ class ProductsFragmentTest: SaleControlBaseTest() {
         launchFragment()
 
         productsRobot {
-            swipeLeft()
-            print("")
+            clickOnEditOption()
         }
     }
 

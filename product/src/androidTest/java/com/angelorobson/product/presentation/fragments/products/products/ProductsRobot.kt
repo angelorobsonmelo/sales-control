@@ -1,19 +1,36 @@
 package com.angelorobson.product.presentation.fragments.products.products
 
-//import androidx.test.espresso.contrib.RecyclerViewActions
 
-import androidx.test.espresso.Espresso
+import android.view.View
+import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import com.angelorobson.product.BaseRobot
 import com.angelorobson.product.R
-import com.angelorobson.product.presentation.adapters.ProductsAdapter
-import com.angelorobson.product.withRecyclerView
-import org.hamcrest.CoreMatchers
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
+import androidx.test.espresso.action.Press
+
+import androidx.test.espresso.action.GeneralLocation
+
+import androidx.test.espresso.action.Swipe
+
+import androidx.test.espresso.action.GeneralSwipeAction
+
+import androidx.recyclerview.widget.RecyclerView
+
+import androidx.test.espresso.action.CoordinatesProvider
+
+import androidx.test.espresso.action.Tap
+
+import androidx.test.espresso.action.GeneralClickAction
+
+import androidx.test.espresso.ViewAction
+
+
+
 
 
 fun productsRobot(func: ProductsRobot.() -> Unit) = ProductsRobot().apply(func)
@@ -57,13 +74,7 @@ class ProductsRobot : BaseRobot() {
         swipeLeft(R.id.products_recycler_view)
     }
 
-    /* fun clickOnRecyclerViewItem() {
-         onView(withId(R.id.rv_conference_list)).perform(
-             actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id. bt_deliver))
-     }*/
-
-
-//    fun swipeRightItemInRecyclerView() {
+    fun clickOnEditOption() {
 //        onView(withId(R.id.products_recycler_view)).perform(
 //            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
 //                0, GeneralSwipeAction(
@@ -72,15 +83,51 @@ class ProductsRobot : BaseRobot() {
 //                )
 //            )
 //        )
-//    }
 
-//    fun notVisibleButtonTryAgain() {
-//        isNotVisible(R.id.ops_error_try_again_button)
-//    }
-//
-//    fun visibleButtonTryAgain() {
-//        isVisible(R.id.ops_error_try_again_button)
-//    }
+        onView(withId(R.id.products_recycler_view)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0, GeneralSwipeAction(
+                    Swipe.SLOW, GeneralLocation.BOTTOM_RIGHT, GeneralLocation.BOTTOM_LEFT,
+                    Press.FINGER
+                )
+            )
+        ).perform(clickXY(50, 0))
+
+//        onView(withId(R.id.products_recycler_view)).check(matches(withText("Edit")))
+
+    }
 
 
+}
+
+fun clickXY(x: Int, y: Int): ViewAction? {
+    return GeneralClickAction(
+        Tap.SINGLE,
+        { view ->
+            val screenPos = IntArray(2)
+            view.getLocationOnScreen(screenPos)
+            val screenX = (screenPos[0] + x).toFloat()
+            val screenY = (screenPos[1] + y).toFloat()
+            floatArrayOf(screenX, screenY)
+        },
+        Press.FINGER
+    )
+}
+
+private fun childAtPosition(
+    parentMatcher: Matcher<View>, position: Int
+): Matcher<View> {
+
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("Child at position $position in parent ")
+            parentMatcher.describeTo(description)
+        }
+
+        public override fun matchesSafely(view: View): Boolean {
+            val parent = view.parent
+            return parent is ViewGroup && parentMatcher.matches(parent)
+                    && view == parent.getChildAt(position)
+        }
+    }
 }
